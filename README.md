@@ -23,6 +23,7 @@ App will be available at [http://localhost:3000](http://localhost:3000).
 - Localization with `next-intl` (English + Russian JSON files)
 - Project folders aligned with suggested structure (`components/`, `services/`, `store/`, `i18n/`)
 - `.gitkeep` added to keep empty dirs under version control
+- Note: Global CSS variables for colors are included, but these are not final — we can decide together on the exact palette and global styling.
 
 ## ❌ Not yet
 
