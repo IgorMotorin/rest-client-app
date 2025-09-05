@@ -18,8 +18,8 @@ App will be available at [http://localhost:3000](http://localhost:3000).
 - Next.js (App Router) + TypeScript
 - Added dependencies: firebase, firebase-admin, next-intl, zustand, tailwindcss, tailgrids, zod, react-hook-form
 - Minimal routes:
-    - Localized Home page (`/en`, `/ru`)
-    - Localized 404 page
+  - Localized Home page (`/en`, `/ru`)
+  - Localized 404 page
 - Localization with `next-intl` (English + Russian JSON files)
 - Project folders aligned with suggested structure (`components/`, `services/`, `store/`, `i18n/`)
 - `.gitkeep` added to keep empty dirs under version control
@@ -33,6 +33,7 @@ App will be available at [http://localhost:3000](http://localhost:3000).
 ## 📂 Structure
 
 ### Suggested
+
 ```
 src/
 ├── components/
@@ -45,6 +46,7 @@ src/
 ```
 
 ### Current
+
 ```
 src/
 └── app/
@@ -52,11 +54,11 @@ src/
     │   ├── layout.tsx
     │   ├── not-found.tsx
     │   └── page.tsx
-    └── globals.css   
-├── components/                
-├── i18n/                      
-├── services/                         
-└── store/        
+    └── globals.css
+├── components/
+├── i18n/
+├── services/
+└── store/
 ```
 
 ## 📝 Next Steps
