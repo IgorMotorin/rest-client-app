@@ -1,0 +1,32 @@
+/* eslint-disable react-refresh/only-export-components -- Next.js requires metadata export */
+import type { Metadata } from 'next';
+import '../globals.css';
+import React from 'react';
+import { hasLocale, NextIntlClientProvider } from 'next-intl';
+import { routing } from '@/i18n/routing';
+import { notFound } from 'next/navigation';
+
+export const metadata: Metadata = {
+  title: 'Final Task',
+  description: 'Project for the RS School React Course 2025',
+};
+
+type Props = {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+};
+
+export default async function LocaleLayout({ children, params }: Props) {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) {
+    notFound();
+  }
+
+  return (
+    <html lang={locale}>
+      <body>
+        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+      </body>
+    </html>
+  );
+}
