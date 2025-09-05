@@ -2,5 +2,9 @@
   "HomePage": {
     "sampleTitle": "Final Task",
     "sampleSubtitle": "Project for the RS School React Course 2025"
+  },
+  "NotFoundPage": {
+    "title": "Page Not Found",
+    "description": "The page you are looking for does not exist."
   }
 }
