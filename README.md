@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# REST Client App
 
-## Getting Started
+Initial setup for the **RS School React Course 2025 final task** project.
 
-First, run the development server:
+## 🚀 How to Run
 
 ```bash
+git clone https://github.com/IgorMotorin/rest-client-app.git
+cd rest-client-app
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+App will be available at [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ✅ What’s set up
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Next.js (App Router) + TypeScript
+- Added dependencies: firebase, firebase-admin, next-intl, zustand, tailwindcss, tailgrids, zod, react-hook-form
+- Minimal routes:
+    - Localized Home page (`/en`, `/ru`)
+    - Localized 404 page
+- Localization with `next-intl` (English + Russian JSON files)
+- Project folders aligned with suggested structure (`components/`, `services/`, `store/`, `i18n/`)
+- `.gitkeep` added to keep empty dirs under version control
 
-## Learn More
+## ❌ Not yet
 
-To learn more about Next.js, take a look at the following resources:
+- `/pages/` directory (Next.js uses `app/` instead)
+- Testing framework (pending team decision)
+- Full feature implementation (REST client, variables, history)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📂 Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Suggested
+```
+src/
+├── components/
+├── pages/
+├── services/
+├── store/
+├── App.tsx
+├── index.tsx
+└── setupTests.ts
+```
 
-## Deploy on Vercel
+### Current
+```
+src/
+└── app/
+    ├── [locale]/
+    │   ├── layout.tsx
+    │   ├── not-found.tsx
+    │   └── page.tsx
+    └── globals.css   
+├── components/                
+├── i18n/                      
+├── services/                         
+└── store/        
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📝 Next Steps
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Pick a testing framework (Jest, Vitest, etc.)
+- Implement components (`RequestForm`, `ResponsePanel`)
+- Add Firebase Auth logic
+- Build REST client, Variables, History routes
+- Replace `.gitkeep` with real code
