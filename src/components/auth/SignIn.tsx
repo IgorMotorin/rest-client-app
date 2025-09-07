@@ -14,13 +14,15 @@ import {
 import { useFirebaseAuth } from '@/services/auth/useFirebaseAuth';
 import { FirebaseError } from '@firebase/app';
 import { useTranslations } from 'next-intl';
-import { Link } from '@/i18n/navigation';
+import { Link, useRouter } from '@/i18n/navigation';
 
 export function SignIn() {
   const { signIn } = useFirebaseAuth();
 
   const t = useTranslations('SignIn');
   const tAuth = useTranslations('auth');
+
+  const router = useRouter();
 
   const signInSchema = z.object({
     email: z.email(t('validation.email')),
@@ -49,6 +51,7 @@ export function SignIn() {
   const onSubmit = async (values: SignInValues) => {
     try {
       await signIn(values.email, values.password);
+      router.replace('/');
     } catch (e) {
       if (e instanceof FirebaseError) {
         setError('root', {

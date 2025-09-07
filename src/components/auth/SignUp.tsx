@@ -14,13 +14,15 @@ import {
 import { useTranslations } from 'next-intl';
 import { useFirebaseAuth } from '@/services/auth/useFirebaseAuth';
 import { FirebaseError } from '@firebase/app';
-import { Link } from '@/i18n/navigation';
+import { Link, useRouter } from '@/i18n/navigation';
 
 export function SignUp() {
   const { signUp } = useFirebaseAuth();
 
   const t = useTranslations('SignUp');
   const tAuth = useTranslations('auth');
+
+  const router = useRouter();
 
   const passwordSchema = z
     .string()
@@ -71,6 +73,7 @@ export function SignUp() {
   const onSubmit = async (values: SignUpValues) => {
     try {
       await signUp(values.email, values.password);
+      router.replace('/');
     } catch (e) {
       if (e instanceof FirebaseError) {
         setError('root', {
