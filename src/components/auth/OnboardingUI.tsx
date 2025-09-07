@@ -2,7 +2,7 @@ import React from 'react';
 
 export function Card({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative mx-auto flex max-w-[525px] flex-col items-center gap-4 overflow-hidden rounded-2xl border border-text-color/10 bg-red px-8 py-12 text-center shadow-lg md:px-14">
+    <div className="relative mx-auto flex max-w-[525px] flex-col items-center gap-4 overflow-hidden rounded-2xl border border-border bg-red px-8 py-12 text-center shadow-lg md:px-14">
       {children}
     </div>
   );
@@ -127,5 +127,13 @@ export function SubmitButton({
       ) : null}
       <span>{children}</span>
     </button>
+  );
+}
+
+export function LoadingSpinner() {
+  return (
+    <div className="flex justify-center items-center">
+      <div className="h-8 w-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+    </div>
   );
 }

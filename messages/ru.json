@@ -3,6 +3,12 @@
     "sampleTitle": "Финальное задание",
     "sampleSubtitle": "Проект для курса RS School React 2025"
   },
+  "OnboardingPage": {
+    "welcome": "Добро пожаловать!",
+    "welcomeSubtitle": "Войдите в систему или создайте аккаунт, чтобы продолжить.",
+    "signIn": "Войти",
+    "signUp": "Зарегистрироваться"
+  },
   "NotFoundPage": {
     "title": "Страница не найдена",
     "description": "Страница, которую вы ищете, не существует."
