@@ -3,7 +3,7 @@ import { Link } from '@/i18n/navigation';
 
 export function Card({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative mx-auto flex max-w-[525px] flex-col items-center gap-4 overflow-hidden rounded-2xl border border-border bg-red px-8 py-12 text-center shadow-lg md:px-14">
+    <div className="relative mx-auto flex max-w-[525px] flex-col items-center gap-4 overflow-hidden rounded-2xl border border-border bg-surface px-8 py-12 text-center shadow-lg md:px-14">
       {children}
     </div>
   );
@@ -102,7 +102,7 @@ export function SubmitButton({
     <button
       type="submit"
       disabled={loading}
-      className="inline-flex w-full items-center justify-center gap-2 rounded-md border border-primary bg-primary px-5 py-3 text-base font-medium text-white transition hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary/40 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
+      className="inline-flex w-full items-center justify-center gap-2 rounded-md border border-primary bg-primary px-5 py-3 text-base font-medium text-on-primary transition hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary/40 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
     >
       {loading ? (
         <svg
