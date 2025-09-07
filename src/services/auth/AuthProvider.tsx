@@ -9,7 +9,7 @@ import {
   signOut as fbSignOut,
   createUserWithEmailAndPassword,
   UserCredential,
-} from '@firebase/auth';
+} from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { AuthContext } from '@/services/auth/AuthContext';
 
