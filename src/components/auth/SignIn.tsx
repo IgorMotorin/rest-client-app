@@ -1,0 +1,114 @@
+'use client';
+
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  Card,
+  Field,
+  Input,
+  Logo,
+  SubmitButton,
+} from '@/components/auth/OnboardingUI';
+import { useFirebaseAuth } from '@/services/auth/useFirebaseAuth';
+import { FirebaseError } from '@firebase/app';
+import { useTranslations } from 'next-intl';
+
+const signInSchema = z.object({
+  email: z.email('Enter a valid email'),
+  password: z.string().min(1, 'Password is required'),
+});
+
+type SignInValues = z.infer<typeof signInSchema>;
+
+export function SignIn() {
+  const { signIn } = useFirebaseAuth();
+
+  const t = useTranslations('SignIn');
+  const tAuth = useTranslations('auth');
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    setFocus,
+    setError,
+  } = useForm<SignInValues>({
+    resolver: zodResolver(signInSchema),
+    mode: 'onChange',
+    reValidateMode: 'onChange',
+    criteriaMode: 'all',
+  });
+
+  useEffect(() => {
+    setFocus('email');
+  }, [setFocus]);
+
+  const onSubmit = async (values: SignInValues) => {
+    try {
+      await signIn(values.email, values.password);
+    } catch (e) {
+      if (e instanceof FirebaseError) {
+        setError('root', {
+          message: tAuth(e.code.replace('auth/', '')),
+        });
+      } else {
+        setError('root', { message: t('unknownError') });
+      }
+    }
+  };
+
+  return (
+    <section className="py-20 lg:py-[120px]">
+      <div className="container mx-auto px-4">
+        <div className="-mx-4 flex flex-wrap">
+          <div className="w-full px-4">
+            <Card>
+              <Logo />
+              <form
+                className="flex w-full flex-col gap-4 text-left"
+                onSubmit={handleSubmit(onSubmit)}
+                method="post"
+                noValidate
+              >
+                <Field error={errors.email?.message}>
+                  <Input
+                    {...register('email')}
+                    type="email"
+                    placeholder={t('emailPlaceholder')}
+                    autoComplete="email"
+                    aria-invalid={!!errors.email || undefined}
+                  />
+                </Field>
+                <Field error={errors.password?.message}>
+                  <Input
+                    {...register('password')}
+                    type="password"
+                    placeholder={t('passwordPlaceholder')}
+                    autoComplete="current-password"
+                    aria-invalid={!!errors.password || undefined}
+                  />
+                </Field>
+
+                <SubmitButton loading={isSubmitting}>
+                  {t('submit')}
+                </SubmitButton>
+                {errors.root?.message ? (
+                  <p className="text-error">{errors.root.message}</p>
+                ) : null}
+              </form>
+
+              <p className="flex flex-row gap-1 text-base text-text-color">
+                <span>{t('noAccount')}</span>
+                <a href="/sign-up" className="text-primary hover:underline">
+                  {t('signUp')}
+                </a>
+              </p>
+            </Card>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
