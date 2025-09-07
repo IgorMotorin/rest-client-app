@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { useFirebaseAuth } from '@/services/auth/useFirebaseAuth';
 import { LoadingSpinner } from '@/components/auth/OnboardingUI';
+import { useRouter } from '@/i18n/navigation';
 
 export function AuthGuard({ children }: { children: React.ReactNode }) {
   const { user, status } = useFirebaseAuth();
