@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from '@/i18n/navigation';
 
 export function Card({ children }: { children: React.ReactNode }) {
   return (
@@ -11,7 +12,7 @@ export function Card({ children }: { children: React.ReactNode }) {
 export function Logo() {
   return (
     <div className="text-center">
-      <a className="mx-auto inline-block">
+      <Link href={'/'} className="mx-auto inline-block">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 260 70"
@@ -47,7 +48,7 @@ export function Logo() {
             REST Client
           </text>
         </svg>
-      </a>
+      </Link>
     </div>
   );
 }
