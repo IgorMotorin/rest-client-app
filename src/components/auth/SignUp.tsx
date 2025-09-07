@@ -14,6 +14,7 @@ import {
 import { useTranslations } from 'next-intl';
 import { useFirebaseAuth } from '@/services/auth/useFirebaseAuth';
 import { FirebaseError } from '@firebase/app';
+import { Link } from '@/i18n/navigation';
 
 export function SignUp() {
   const { signUp } = useFirebaseAuth();
@@ -89,7 +90,7 @@ export function SignUp() {
             <Card>
               <Logo />
               <form
-                className="flex w-full flex-col gap-4 text-left"
+                className="flex w-full flex-col gap-2 text-left"
                 onSubmit={handleSubmit(onSubmit)}
                 method="post"
                 noValidate
@@ -103,7 +104,7 @@ export function SignUp() {
                   />
                 </Field>
 
-                <div className="grid grid-cols-1 gap-5 sm:gap-2 sm:grid-cols-2">
+                <div className="flex flex-col sm:flex-row sm:gap-2">
                   <Field error={errors.password?.message}>
                     <Input
                       {...register('password')}
@@ -121,20 +122,28 @@ export function SignUp() {
                     />
                   </Field>
                 </div>
-
-                {errors.root?.message ? (
-                  <p className="text-error">{errors.root.message}</p>
-                ) : null}
                 <SubmitButton loading={isSubmitting}>
                   {t('submit')}
                 </SubmitButton>
+                <div className="min-h-[1.25rem]">
+                  <p
+                    className={
+                      errors.root?.message
+                        ? 'text-sm text-error'
+                        : 'text-sm opacity-0'
+                    }
+                    aria-live="polite"
+                  >
+                    {errors.root?.message || ''}
+                  </p>
+                </div>
               </form>
 
               <p className="flex flex-row gap-1 text-base text-text-color">
                 <span>{t('alreadyHaveAccount')}</span>
-                <a href="/sign-in" className="text-primary hover:underline">
+                <Link href="/sign-in" className="text-primary hover:underline">
                   {t('signIn')}
-                </a>
+                </Link>
               </p>
             </Card>
           </div>

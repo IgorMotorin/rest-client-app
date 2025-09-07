@@ -2,7 +2,7 @@ import React from 'react';
 
 export function Card({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative mx-auto flex max-w-[525px] flex-col items-center gap-4 overflow-hidden rounded-2xl border border-text-color/10 bg-surface px-8 py-12 text-center shadow-lg md:gap-10 md:px-14">
+    <div className="relative mx-auto flex max-w-[525px] flex-col items-center gap-4 overflow-hidden rounded-2xl border border-text-color/10 bg-red px-8 py-12 text-center shadow-lg md:px-14">
       {children}
     </div>
   );
@@ -67,7 +67,14 @@ export function Field({
         <span className="text-sm font-medium text-text-color/90">{label}</span>
       ) : null}
       {children}
-      {error ? <span className="text-sm text-error">{error}</span> : null}
+      <div className="min-h-[1.25rem]">
+        <p
+          className={error ? 'text-sm text-error' : 'text-sm opacity-0'}
+          aria-live="polite"
+        >
+          {error || ''}
+        </p>
+      </div>
     </label>
   );
 }

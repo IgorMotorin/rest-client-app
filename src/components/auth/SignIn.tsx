@@ -14,19 +14,20 @@ import {
 import { useFirebaseAuth } from '@/services/auth/useFirebaseAuth';
 import { FirebaseError } from '@firebase/app';
 import { useTranslations } from 'next-intl';
-
-const signInSchema = z.object({
-  email: z.email('Enter a valid email'),
-  password: z.string().min(1, 'Password is required'),
-});
-
-type SignInValues = z.infer<typeof signInSchema>;
+import { Link } from '@/i18n/navigation';
 
 export function SignIn() {
   const { signIn } = useFirebaseAuth();
 
   const t = useTranslations('SignIn');
   const tAuth = useTranslations('auth');
+
+  const signInSchema = z.object({
+    email: z.email(t('validation.email')),
+    password: z.string().min(1, t('validation.passwordRequired')),
+  });
+
+  type SignInValues = z.infer<typeof signInSchema>;
 
   const {
     register,
@@ -67,7 +68,7 @@ export function SignIn() {
             <Card>
               <Logo />
               <form
-                className="flex w-full flex-col gap-4 text-left"
+                className="flex w-full flex-col gap-2 text-left"
                 onSubmit={handleSubmit(onSubmit)}
                 method="post"
                 noValidate
@@ -94,16 +95,25 @@ export function SignIn() {
                 <SubmitButton loading={isSubmitting}>
                   {t('submit')}
                 </SubmitButton>
-                {errors.root?.message ? (
-                  <p className="text-error">{errors.root.message}</p>
-                ) : null}
+                <div className="min-h-[1.25rem]">
+                  <p
+                    className={
+                      errors.root?.message
+                        ? 'text-sm text-error'
+                        : 'text-sm opacity-0'
+                    }
+                    aria-live="polite"
+                  >
+                    {errors.root?.message || ''}
+                  </p>
+                </div>
               </form>
 
               <p className="flex flex-row gap-1 text-base text-text-color">
                 <span>{t('noAccount')}</span>
-                <a href="/sign-up" className="text-primary hover:underline">
+                <Link href="/sign-up" className="text-primary hover:underline">
                   {t('signUp')}
-                </a>
+                </Link>
               </p>
             </Card>
           </div>
