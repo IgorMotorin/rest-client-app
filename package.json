@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
@@ -12,6 +12,13 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@emotion/cache": "^11.14.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@fontsource/roboto": "^5.2.6",
+    "@mui/material": "^7.3.2",
+    "@mui/material-nextjs": "^7.3.2",
+    "@mui/x-data-grid": "^8.11.1",
     "autoprefixer": "^10.4.21",
     "firebase": "^12.2.1",
     "firebase-admin": "^13.5.0",
@@ -20,7 +27,6 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-hook-form": "^7.62.0",
-    "tailgrids": "^2.3.0",
     "zod": "^4.1.5",
     "zustand": "^5.0.8"
   },
