@@ -5,7 +5,7 @@ import { useRestStore } from '@/store/restStore';
 const InputField = () => {
   const url = useRestStore((state) => state.url);
   const setUrl = useRestStore((state) => state.setUrl);
-  console.log(url);
+
   return (
     <FormControl className={'flex-4'}>
       <TextField

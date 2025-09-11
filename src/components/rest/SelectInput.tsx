@@ -7,7 +7,6 @@ import { useRestStore } from '@/store/restStore';
 const SelectInput = () => {
   const method = useRestStore((state) => state.method);
   const setMethod = useRestStore((state) => state.setMethod);
-  console.log(method);
 
   return (
     <FormControl className={'flex-1'}>
