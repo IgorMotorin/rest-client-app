@@ -1,19 +1,14 @@
 'use client';
-import React, { use } from 'react';
-import SelectInput from '@/components/SelectInput';
-import InputField from '@/components/InputField';
+import React from 'react';
+import SelectInput from './SelectInput';
+import InputField from './InputField';
 
 import { Box } from '@mui/system';
 import { Button } from '@mui/material';
 
-import CustomTabs from '@/components/CustomTabs';
+import CustomTabs from './CustomTabs';
 
-export default function Restful({
-  params,
-}: {
-  params: Promise<{ method: string }>;
-}) {
-  const { method } = use(params);
+export default function Rest({ method = '' }: { method: string }) {
   console.log(method);
 
   return (

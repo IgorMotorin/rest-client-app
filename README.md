@@ -54,7 +54,7 @@ src/
     ├── [locale]/
     │   ├── layout.tsx
     │   ├── not-found.tsx
-    │   └── page.tsx
+    │   └── Rest.tsx
     └── globals.css
 ├── components/
 ├── i18n/

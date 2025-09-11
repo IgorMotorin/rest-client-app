@@ -1,7 +1,7 @@
 import { Box } from '@mui/system';
 import { Tab, Tabs } from '@mui/material';
 import { ReactNode, useState } from 'react';
-import DataTable from '@/components/DataTable';
+import DataTable from '@/components/rest/DataTable';
 
 function TabPanel(props: {
   value: number;

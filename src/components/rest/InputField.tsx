@@ -1,7 +1,11 @@
 import React from 'react';
 import { FormControl, TextField } from '@mui/material';
+import { useRestStore } from '@/store/restStore';
 
 const InputField = () => {
+  const url = useRestStore((state) => state.url);
+  const setUrl = useRestStore((state) => state.setUrl);
+  console.log(url);
   return (
     <FormControl className={'flex-4'}>
       <TextField
@@ -10,6 +14,8 @@ const InputField = () => {
         label="Enter or paste endpoint URL"
         variant="outlined"
         size="small"
+        value={url}
+        onChange={(event) => setUrl(event.target.value)}
       />
     </FormControl>
   );

@@ -15,7 +15,6 @@ const rowsDefault = arr.fill(1).map((item, index) => ({
   key: '',
   value: '',
 }));
-console.log(rowsDefault);
 
 const paginationModel = { page: 0, pageSize: 5 };
 
