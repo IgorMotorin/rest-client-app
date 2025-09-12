@@ -74,5 +74,13 @@
 
     "expired-action-code": "This link has expired.",
     "invalid-action-code": "This link is invalid."
+  },
+  "HomeNavigation": {
+    "restClient": "REST Client",
+    "history": "History",
+    "variables": "Variables"
+  },
+  "HistoryRequests": {
+    "title": "History Requests"
   }
 }
