@@ -82,5 +82,19 @@
   },
   "HistoryRequests": {
     "title": "History Requests"
+  },
+  "Rest": {
+    "select": "Select method",
+    "url": "Enter or paste endpoint URL",
+    "send": "Send",
+    "query": "Query params",
+    "add": "add a row",
+    "key": "key",
+    "value": "value",
+    "del": "del",
+    "body": "Body",
+    "headers": "Headers",
+    "authorization": "Authorization",
+    "generated": "Generated request code"
   }
 }

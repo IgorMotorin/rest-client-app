@@ -1,8 +1,10 @@
 import React from 'react';
 import { FormControl, TextField } from '@mui/material';
 import { useRestStore } from '@/store/restStore';
+import { useTranslations } from 'next-intl';
 
 const InputField = () => {
+  const t = useTranslations('Rest');
   const url = useRestStore((state) => state.url);
   const setUrl = useRestStore((state) => state.setUrl);
 
@@ -11,7 +13,7 @@ const InputField = () => {
       <TextField
         className={'flex-4'}
         id="outlined-basic"
-        label="Enter or paste endpoint URL"
+        label={t('url')}
         variant="outlined"
         size="small"
         value={url}

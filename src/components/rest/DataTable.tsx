@@ -12,6 +12,7 @@ import {
   TableRow,
   TextField,
 } from '@mui/material';
+import { useTranslations } from 'next-intl';
 
 type tRows = {
   id: number;
@@ -27,6 +28,7 @@ export default function DataTable({
   rows: tRows;
   setRows: (headers: tRows) => void;
 }) {
+  const t = useTranslations('Rest');
   const handleCheckboxChange = (id: number) => {
     const newRows = [...rows];
     const index = newRows.findIndex((x) => x.id === id);
@@ -86,7 +88,7 @@ export default function DataTable({
                   <TextField
                     className={`w-full ${row.select ? 'bg-blue-100' : ''}`}
                     id="outlined-basic"
-                    label="key"
+                    label={t('key')}
                     variant="outlined"
                     size="small"
                     value={row.key}
@@ -99,7 +101,7 @@ export default function DataTable({
                   <TextField
                     className={`w-full flex-1 ${row.select ? 'bg-blue-100' : ''}`}
                     id="outlined-basic"
-                    label="value"
+                    label={t('value')}
                     variant="outlined"
                     size="small"
                     value={row.value}
@@ -110,7 +112,7 @@ export default function DataTable({
                 </TableCell>
                 <TableCell size={'small'}>
                   <Button size="small" onClick={() => handleButtonDel(row.id)}>
-                    del
+                    {t('del')}
                   </Button>
                 </TableCell>
               </TableRow>
@@ -120,7 +122,7 @@ export default function DataTable({
       </TableContainer>
       <Stack direction="row" spacing={1} sx={{ mb: 1, width: '100%' }}>
         <Button size="small" onClick={handleButtonAdd}>
-          Add a row
+          {t('add')}
         </Button>
       </Stack>
     </Box>

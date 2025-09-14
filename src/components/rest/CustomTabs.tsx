@@ -4,6 +4,7 @@ import { ReactNode, useState } from 'react';
 import DataTable from '@/components/rest/DataTable';
 import { useRestStore } from '@/store/restStore';
 import MultilineTextFields from '@/components/rest/MultilineTextField';
+import { useTranslations } from 'next-intl';
 
 function TabPanel(props: {
   value: number;
@@ -15,6 +16,7 @@ function TabPanel(props: {
 }
 
 export default function CustomTabs() {
+  const t = useTranslations('Rest');
   const [tabs, setTabs] = useState(1);
   const query = useRestStore((state) => state.query);
   const setQuery = useRestStore((state) => state.setQuery);
@@ -32,12 +34,12 @@ export default function CustomTabs() {
           onChange={(event, value) => setTabs(value)}
           aria-label="basic tabs example"
         >
-          <Tab label="Query params" value={1} />
-          <Tab disabled={method === 'get'} label="Body" value={2} />
-          <Tab label="Headers" value={3} />
-          <Tab label="Authorization" value={4} />
+          <Tab label={t('query')} value={1} />
+          <Tab disabled={method === 'get'} label={t('body')} value={2} />
+          <Tab label={t('headers')} value={3} />
+          <Tab label={t('authorization')} value={4} />
           <Tab label="BASE64" value={5} />
-          <Tab label="Generated request code" value={6} />
+          <Tab label={t('generated')} value={6} />
         </Tabs>
       </Box>
       <TabPanel value={tabs} index={1}>
@@ -50,7 +52,7 @@ export default function CustomTabs() {
         <DataTable rows={headers} setRows={setHeaders}></DataTable>
       </TabPanel>
       <TabPanel value={tabs} index={4}>
-        Item Fight
+        {t('authorization')}
       </TabPanel>
       <TabPanel value={tabs} index={5}>
         <div>Base 64</div>
