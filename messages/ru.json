@@ -74,5 +74,13 @@
 
     "expired-action-code": "Эта ссылка устарела.",
     "invalid-action-code": "Эта ссылка недействительна."
+  },
+  "HomeNavigation": {
+    "restClient": "REST Клиент",
+    "history": "История",
+    "variables": "Переменные"
+  },
+  "HistoryRequests": {
+    "title": "История запросов"
   }
 }
