@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { use } from 'react';
 import Rest from '@/components/rest/Rest';
+import { methods } from '@/accessory/constants';
 
 export default function CatchAllPage({
   params,
@@ -9,8 +10,8 @@ export default function CatchAllPage({
 }) {
   const { rest } = use(params);
 
-  if (rest[0] === 'rest') {
-    return <Rest method={rest[1]}></Rest>;
+  if (methods.includes(rest[0])) {
+    return <Rest method={rest[0]}></Rest>;
   }
   notFound();
 }
