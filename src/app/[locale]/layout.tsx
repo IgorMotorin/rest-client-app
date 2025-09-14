@@ -10,6 +10,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
+import { AuthProvider } from '@/services/auth/AuthProvider';
 
 export const metadata: Metadata = {
   title: 'Final Task',
@@ -31,7 +32,9 @@ export default async function LocaleLayout({ children, params }: Props) {
     <html lang={locale}>
       <body>
         <NextIntlClientProvider>
-          <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
+          <AppRouterCacheProvider>
+            <AuthProvider>{children}</AuthProvider>
+          </AppRouterCacheProvider>
         </NextIntlClientProvider>
       </body>
     </html>

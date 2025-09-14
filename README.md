@@ -17,6 +17,7 @@ App will be available at [http://localhost:3000](http://localhost:3000).
 
 - Next.js (App Router) + TypeScript
 - Added dependencies: firebase, firebase-admin, next-intl, zustand, tailwindcss, tailgrids, zod, react-hook-form
+- Firebase client SDK initialized (`src/lib/firebase.ts`)
 - Minimal routes:
   - Localized Home page (`/en`, `/ru`)
   - Localized 404 page
@@ -24,6 +25,20 @@ App will be available at [http://localhost:3000](http://localhost:3000).
 - Project folders aligned with suggested structure (`components/`, `services/`, `store/`, `i18n/`)
 - `.gitkeep` added to keep empty dirs under version control
 - Note: Global CSS variables for colors are included, but these are not final — we can decide together on the exact palette and global styling.
+
+## 🔑 Firebase Setup
+
+This project uses **Firebase** (Auth + Firestore).  
+Before running locally, create a `.env` file in the project root with your Firebase config:
+
+```env
+NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
+```
 
 ## ❌ Not yet
 
