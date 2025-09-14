@@ -36,7 +36,8 @@ export default function CustomTabs() {
           <Tab disabled={method === 'get'} label="Body" value={2} />
           <Tab label="Headers" value={3} />
           <Tab label="Authorization" value={4} />
-          <Tab label="Generated request code" value={5} />
+          <Tab label="BASE64" value={5} />
+          <Tab label="Generated request code" value={6} />
         </Tabs>
       </Box>
       <TabPanel value={tabs} index={1}>
@@ -52,6 +53,9 @@ export default function CustomTabs() {
         Item Fight
       </TabPanel>
       <TabPanel value={tabs} index={5}>
+        <div>Base 64</div>
+      </TabPanel>
+      <TabPanel value={tabs} index={6}>
         <div>Generated request code</div>
       </TabPanel>
     </>
