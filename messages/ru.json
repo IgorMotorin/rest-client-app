@@ -76,7 +76,7 @@
     "invalid-action-code": "Эта ссылка недействительна."
   },
   "HomeNavigation": {
-    "restClient": "REST Клиент",
+    "rest": "REST Клиент",
     "history": "История",
     "variables": "Переменные"
   },
