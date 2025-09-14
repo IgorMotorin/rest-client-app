@@ -18,7 +18,6 @@
     "@fontsource/roboto": "^5.2.6",
     "@mui/material": "^7.3.2",
     "@mui/material-nextjs": "^7.3.2",
-    "@mui/x-data-grid": "^8.11.1",
     "autoprefixer": "^10.4.21",
     "firebase": "^12.2.1",
     "firebase-admin": "^13.5.0",
