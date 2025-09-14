@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
@@ -12,6 +12,12 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@emotion/cache": "^11.14.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@fontsource/roboto": "^5.2.6",
+    "@mui/material": "^7.3.2",
+    "@mui/material-nextjs": "^7.3.2",
     "@hookform/resolvers": "^5.2.1",
     "autoprefixer": "^10.4.21",
     "firebase": "^12.2.1",
