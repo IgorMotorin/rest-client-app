@@ -1,50 +1,128 @@
 import * as React from 'react';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 import { Box, Stack } from '@mui/system';
-import { Button } from '@mui/material';
+import {
+  Button,
+  Checkbox,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+} from '@mui/material';
 
-const columns: GridColDef[] = [
-  { field: 'key', headerName: 'Key', width: 300, editable: true },
-  { field: 'value', headerName: 'Value', width: 300, editable: true },
-];
+type tRows = {
+  id: number;
+  key: string;
+  value: string;
+  select: boolean;
+}[];
 
-const arr = new Array(10);
-const rowsDefault = arr.fill(1).map((item, index) => ({
-  id: index + 1,
-  key: '',
-  value: '',
-}));
+export default function DataTable({
+  rows,
+  setRows,
+}: {
+  rows: tRows;
+  setRows: (headers: tRows) => void;
+}) {
+  const handleCheckboxChange = (id: number) => {
+    const newRows = [...rows];
+    const index = newRows.findIndex((x) => x.id === id);
+    newRows[index].select = !newRows[index].select;
+    setRows(newRows);
+  };
 
-const paginationModel = { page: 0, pageSize: 5 };
+  const handleTextChangeKey = (id: number, value: string) => {
+    const newRows = [...rows];
+    const index = newRows.findIndex((x) => x.id === id);
+    newRows[index].key = value;
+    setRows(newRows);
+  };
+  const handleTextChangeValue = (id: number, value: string) => {
+    const newRows = [...rows];
+    const index = newRows.findIndex((x) => x.id === id);
+    newRows[index].value = value;
+    setRows(newRows);
+  };
+  const handleButtonDel = (id: number) => {
+    const newRows = [...rows];
+    const index = newRows.findIndex((x) => x.id === id);
+    newRows.splice(index, 1);
+    setRows(newRows);
+  };
+  const handleButtonAdd = () => {
+    const newRows = [...rows];
+    const arrId = newRows.map((item) => item.id);
+    arrId.sort((a, b) => a - b);
+    const nextId = arrId[arrId.length - 1] + 1;
 
-export default function DataTable() {
-  const [nbRows, setNbRows] = React.useState(3);
-  const [rows] = React.useState(rowsDefault);
-  const removeRow = () => setNbRows((x) => Math.max(0, x - 1));
-  const addRow = () => setNbRows((x) => Math.min(100, x + 1));
+    newRows.push({ id: nextId, key: '', value: '', select: false });
+    setRows(newRows);
+  };
 
   return (
-    <Box>
+    <Box className={'m-1'}>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead></TableHead>
+          <TableBody>
+            {rows.map((row, i) => (
+              <TableRow
+                key={'r' + i}
+                sx={{
+                  '&:last-child td, &:last-child th': { border: 0 },
+                  width: '100%',
+                }}
+              >
+                <TableCell align="right" size={'small'}>
+                  <Checkbox
+                    checked={row.select}
+                    onChange={() => handleCheckboxChange(row.id)}
+                  />
+                </TableCell>
+                <TableCell align="right" size={'small'}>
+                  <TextField
+                    className={`w-full ${row.select ? 'bg-blue-100' : ''}`}
+                    id="outlined-basic"
+                    label="key"
+                    variant="outlined"
+                    size="small"
+                    value={row.key}
+                    onChange={(event) =>
+                      handleTextChangeKey(row.id, event.target.value)
+                    }
+                  />
+                </TableCell>
+                <TableCell align="right" size={'small'}>
+                  <TextField
+                    className={`w-full flex-1 ${row.select ? 'bg-blue-100' : ''}`}
+                    id="outlined-basic"
+                    label="value"
+                    variant="outlined"
+                    size="small"
+                    value={row.value}
+                    onChange={(event) =>
+                      handleTextChangeValue(row.id, event.target.value)
+                    }
+                  />
+                </TableCell>
+                <TableCell size={'small'}>
+                  <Button size="small" onClick={() => handleButtonDel(row.id)}>
+                    del
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
       <Stack direction="row" spacing={1} sx={{ mb: 1, width: '100%' }}>
-        <Button size="small" onClick={removeRow}>
-          Remove a row
-        </Button>
-        <Button size="small" onClick={addRow}>
+        <Button size="small" onClick={handleButtonAdd}>
           Add a row
         </Button>
       </Stack>
-      <Paper sx={{ height: 400, width: '100%' }}>
-        <DataGrid
-          rows={rows.slice(0, nbRows)}
-          columns={columns}
-          initialState={{ pagination: { paginationModel } }}
-          pageSizeOptions={[5, 10]}
-          checkboxSelection
-          disableRowSelectionOnClick
-          sx={{ border: 0 }}
-        />
-      </Paper>
     </Box>
   );
 }
