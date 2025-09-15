@@ -34,8 +34,10 @@ export default async function LocaleLayout({ children, params }: Props) {
       <body>
         <NextIntlClientProvider>
           <AppRouterCacheProvider>
-            <AuthProvider>{children}</AuthProvider>
-            <Footer />
+            <AuthProvider>
+              {children}
+              <Footer />
+            </AuthProvider>
           </AppRouterCacheProvider>
         </NextIntlClientProvider>
       </body>
