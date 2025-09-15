@@ -5,14 +5,23 @@ import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
 import { useRestStore } from '@/store/restStore';
 import { useTranslations } from 'next-intl';
-import { useRouter } from '@/i18n/navigation';
+import { usePathname, useRouter } from '@/i18n/navigation';
 
 const SelectInput = () => {
   const t = useTranslations('Rest');
 
   const method = useRestStore((state) => state.method);
   const setMethod = useRestStore((state) => state.setMethod);
+
   const router = useRouter();
+  const path = usePathname();
+
+  const setPathname = (pathname: string) => {
+    const arr = path.split('/');
+    arr[1] = pathname;
+    const tmp = arr.join('/');
+    router.push(`${tmp}`);
+  };
 
   return (
     <FormControl className={'flex-1'}>
@@ -27,7 +36,7 @@ const SelectInput = () => {
         onChange={(event) => {
           const tmp = event.target.value;
           setMethod(tmp);
-          router.push(`/${tmp}`);
+          setPathname(tmp);
         }}
         size="small"
       >

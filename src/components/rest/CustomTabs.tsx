@@ -5,6 +5,8 @@ import DataTable from '@/components/rest/DataTable';
 import { useRestStore } from '@/store/restStore';
 import MultilineTextFields from '@/components/rest/MultilineTextField';
 import { useTranslations } from 'next-intl';
+import TextField from '@mui/material/TextField';
+import * as React from 'react';
 
 function TabPanel(props: {
   value: number;
@@ -28,6 +30,8 @@ export default function CustomTabs() {
 
   const body = useRestStore((state) => state.body);
   const bodyTable = useRestStore((state) => state.bodyTable);
+
+  const base64 = useRestStore((state) => state.base64);
 
   const StyledBadge = styled(Badge)<BadgeProps>(() => ({
     '& .MuiBadge-badge': {
@@ -105,7 +109,21 @@ export default function CustomTabs() {
         {t('authorization')}
       </TabPanel>
       <TabPanel value={tabs} index={5}>
-        <div>Base 64</div>
+        <Box
+          component="form"
+          sx={{ '& .MuiTextField-root': { m: 1, width: '98%' } }}
+          noValidate
+          autoComplete="off"
+        >
+          <TextField
+            id="outlined-multiline-static"
+            label={'Base64'}
+            multiline
+            color={'primary'}
+            minRows={4}
+            value={base64}
+          />
+        </Box>
       </TabPanel>
       <TabPanel value={tabs} index={6}>
         <div>Generated request code</div>
