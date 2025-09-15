@@ -1,5 +1,5 @@
-import { Box } from '@mui/system';
-import { Tab, Tabs } from '@mui/material';
+import { Box, styled } from '@mui/system';
+import { Badge, BadgeProps, Tab, Tabs } from '@mui/material';
 import { ReactNode, useState } from 'react';
 import DataTable from '@/components/rest/DataTable';
 import { useRestStore } from '@/store/restStore';
@@ -26,17 +26,67 @@ export default function CustomTabs() {
 
   const method = useRestStore((state) => state.method);
 
+  const body = useRestStore((state) => state.body);
+  const bodyTable = useRestStore((state) => state.bodyTable);
+
+  const StyledBadge = styled(Badge)<BadgeProps>(() => ({
+    '& .MuiBadge-badge': {
+      right: -6,
+      top: -4,
+      height: '16px',
+      minWidth: '16px',
+      fontSize: '10px',
+      padding: 0,
+    },
+  }));
+
   return (
     <>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }} className={'pt-4'}>
         <Tabs
           value={tabs}
           onChange={(event, value) => setTabs(value)}
           aria-label="basic tabs example"
         >
-          <Tab label={t('query')} value={1} />
-          <Tab disabled={method === 'get'} label={t('body')} value={2} />
-          <Tab label={t('headers')} value={3} />
+          <Tab
+            label={
+              <StyledBadge
+                badgeContent={query.filter((item) => item.select).length}
+                color="primary"
+              >
+                {t('query')}
+              </StyledBadge>
+            }
+            value={1}
+          />
+
+          <Tab
+            disabled={method === 'get'}
+            label={
+              <StyledBadge
+                badgeContent={
+                  body.select === 'form'
+                    ? bodyTable.filter((item) => item.select).length
+                    : null
+                }
+                color="primary"
+              >
+                {t('body')}
+              </StyledBadge>
+            }
+            value={2}
+          />
+          <Tab
+            label={
+              <StyledBadge
+                badgeContent={headers.filter((item) => item.select).length}
+                color="primary"
+              >
+                {t('headers')}
+              </StyledBadge>
+            }
+            value={3}
+          />
           <Tab label={t('authorization')} value={4} />
           <Tab label="BASE64" value={5} />
           <Tab label={t('generated')} value={6} />

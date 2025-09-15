@@ -43,6 +43,13 @@ const queryDefault = arr.fill(1).map((item, index) => ({
   select: false,
 }));
 
+const headersDefault = arr.fill(1).map((item, index) => ({
+  id: index,
+  key: '',
+  value: '',
+  select: false,
+}));
+
 const bodyDefault = {
   select: 'none',
   text: '',
@@ -77,7 +84,7 @@ export const useRestStore = create<UserRequest>((set) => ({
   query: queryDefault,
   body: bodyDefault,
   bodyTable: bodyTableDefault,
-  headers: queryDefault,
+  headers: headersDefault,
   setBase64: (base64) => set({ base64: base64 }),
   setMethod: (method) => set({ method: method }),
   setUrl: (url) => set({ url: url }),
