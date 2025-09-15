@@ -76,7 +76,7 @@
     "invalid-action-code": "This link is invalid."
   },
   "HomeNavigation": {
-    "restClient": "REST Client",
+    "rest": "REST Client",
     "history": "History",
     "variables": "Variables"
   },
