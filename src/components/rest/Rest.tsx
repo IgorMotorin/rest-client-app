@@ -9,8 +9,10 @@ import { Button } from '@mui/material';
 
 import CustomTabs from './CustomTabs';
 import { useRestStore } from '@/store/restStore';
+import { useTranslations } from 'next-intl';
 
 export default function Rest({ method = '' }: { method: string }) {
+  const t = useTranslations('Rest');
   const setMethod = useRestStore((state) => state.setMethod);
   useEffect(() => {
     if (methods.includes(method.toLowerCase())) {
@@ -19,10 +21,10 @@ export default function Rest({ method = '' }: { method: string }) {
   }, [method, setMethod]);
   return (
     <>
-      <Box className={'flex mt-2'}>
+      <Box className={'flex m-2'}>
         <SelectInput></SelectInput>
         <InputField></InputField>
-        <Button variant="contained">Send</Button>
+        <Button variant="contained">{t('send')}</Button>
       </Box>
       <CustomTabs></CustomTabs>
     </>

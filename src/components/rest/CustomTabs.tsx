@@ -1,9 +1,13 @@
-import { Box } from '@mui/system';
-import { Tab, Tabs } from '@mui/material';
-import { ReactNode, useState } from 'react';
+import { Box, styled } from '@mui/system';
+import { Badge, BadgeProps, Tab, Tabs } from '@mui/material';
+import { ReactNode } from 'react';
 import DataTable from '@/components/rest/DataTable';
 import { useRestStore } from '@/store/restStore';
 import MultilineTextFields from '@/components/rest/MultilineTextField';
+import { useTranslations } from 'next-intl';
+import TextField from '@mui/material/TextField';
+import * as React from 'react';
+import { usePathname } from '@/i18n/navigation';
 
 function TabPanel(props: {
   value: number;
@@ -15,7 +19,11 @@ function TabPanel(props: {
 }
 
 export default function CustomTabs() {
-  const [tabs, setTabs] = useState(1);
+  const t = useTranslations('Rest');
+
+  const tabs = useRestStore((state) => state.tabs);
+  const setTabs = useRestStore((state) => state.setTabs);
+
   const query = useRestStore((state) => state.query);
   const setQuery = useRestStore((state) => state.setQuery);
 
@@ -24,20 +32,72 @@ export default function CustomTabs() {
 
   const method = useRestStore((state) => state.method);
 
+  const body = useRestStore((state) => state.body);
+  const bodyTable = useRestStore((state) => state.bodyTable);
+
+  const path = usePathname();
+
+  const StyledBadge = styled(Badge)<BadgeProps>(() => ({
+    '& .MuiBadge-badge': {
+      right: -6,
+      top: -4,
+      height: '16px',
+      minWidth: '16px',
+      fontSize: '10px',
+      padding: 0,
+    },
+  }));
+
   return (
     <>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }} className={'pt-4'}>
         <Tabs
           value={tabs}
           onChange={(event, value) => setTabs(value)}
           aria-label="basic tabs example"
         >
-          <Tab label="Query params" value={1} />
-          <Tab disabled={method === 'get'} label="Body" value={2} />
-          <Tab label="Headers" value={3} />
-          <Tab label="Authorization" value={4} />
+          <Tab
+            label={
+              <StyledBadge
+                badgeContent={query.filter((item) => item.select).length}
+                color="primary"
+              >
+                {t('query')}
+              </StyledBadge>
+            }
+            value={1}
+          />
+
+          <Tab
+            disabled={method === 'get'}
+            label={
+              <StyledBadge
+                badgeContent={
+                  body.select === 'form'
+                    ? bodyTable.filter((item) => item.select).length
+                    : null
+                }
+                color="primary"
+              >
+                {t('body')}
+              </StyledBadge>
+            }
+            value={2}
+          />
+          <Tab
+            label={
+              <StyledBadge
+                badgeContent={headers.filter((item) => item.select).length}
+                color="primary"
+              >
+                {t('headers')}
+              </StyledBadge>
+            }
+            value={3}
+          />
+          <Tab label={t('authorization')} value={4} />
           <Tab label="BASE64" value={5} />
-          <Tab label="Generated request code" value={6} />
+          <Tab label={t('generated')} value={6} />
         </Tabs>
       </Box>
       <TabPanel value={tabs} index={1}>
@@ -50,10 +110,24 @@ export default function CustomTabs() {
         <DataTable rows={headers} setRows={setHeaders}></DataTable>
       </TabPanel>
       <TabPanel value={tabs} index={4}>
-        Item Fight
+        {t('authorization')}
       </TabPanel>
       <TabPanel value={tabs} index={5}>
-        <div>Base 64</div>
+        <Box
+          component="form"
+          sx={{ '& .MuiTextField-root': { m: 1, width: '98%' } }}
+          noValidate
+          autoComplete="off"
+        >
+          <TextField
+            id="outlined-multiline-static"
+            label={'Base64'}
+            multiline
+            color={'primary'}
+            minRows={4}
+            value={path}
+          />
+        </Box>
       </TabPanel>
       <TabPanel value={tabs} index={6}>
         <div>Generated request code</div>
