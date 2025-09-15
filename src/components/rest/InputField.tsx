@@ -1,29 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FormControl, TextField } from '@mui/material';
 import { useRestStore } from '@/store/restStore';
 import { useTranslations } from 'next-intl';
-import { usePathname } from '@/i18n/navigation';
+import { usePathname, useRouter } from '@/i18n/navigation';
 
 const InputField = () => {
   const t = useTranslations('Rest');
   const url = useRestStore((state) => state.url);
   const setUrl = useRestStore((state) => state.setUrl);
-  const setBase64 = useRestStore((state) => state.setBase64);
   const path = usePathname();
+  const router = useRouter();
 
-  const setPathname = (pathname: string) => {
+  useEffect(() => {
     const arr = path.split('/');
     if (arr.length > 2) {
-      arr[2] = btoa(pathname);
+      arr[2] = btoa(url);
     } else {
-      arr.push(btoa(pathname));
+      arr.push(btoa(url));
     }
-    return arr.join('/');
-  };
+    const tmp = arr.join('/');
+    //router.replace(`${tmp}`);
+    window.history.replaceState(null, '', `${tmp}`);
+  }, [path, router, url]);
 
   return (
     <FormControl className={'flex-4'}>
       <TextField
+        autoFocus={true}
         className={'flex-4'}
         id="outlined-basic"
         label={t('url')}
@@ -33,7 +36,6 @@ const InputField = () => {
         onChange={(event) => {
           const value = event.target.value;
           setUrl(value);
-          setBase64(setPathname(value));
         }}
       />
     </FormControl>

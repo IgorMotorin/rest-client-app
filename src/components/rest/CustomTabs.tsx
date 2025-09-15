@@ -1,12 +1,13 @@
 import { Box, styled } from '@mui/system';
 import { Badge, BadgeProps, Tab, Tabs } from '@mui/material';
-import { ReactNode, useState } from 'react';
+import { ReactNode } from 'react';
 import DataTable from '@/components/rest/DataTable';
 import { useRestStore } from '@/store/restStore';
 import MultilineTextFields from '@/components/rest/MultilineTextField';
 import { useTranslations } from 'next-intl';
 import TextField from '@mui/material/TextField';
 import * as React from 'react';
+import { usePathname } from '@/i18n/navigation';
 
 function TabPanel(props: {
   value: number;
@@ -19,7 +20,10 @@ function TabPanel(props: {
 
 export default function CustomTabs() {
   const t = useTranslations('Rest');
-  const [tabs, setTabs] = useState(1);
+
+  const tabs = useRestStore((state) => state.tabs);
+  const setTabs = useRestStore((state) => state.setTabs);
+
   const query = useRestStore((state) => state.query);
   const setQuery = useRestStore((state) => state.setQuery);
 
@@ -31,7 +35,7 @@ export default function CustomTabs() {
   const body = useRestStore((state) => state.body);
   const bodyTable = useRestStore((state) => state.bodyTable);
 
-  const base64 = useRestStore((state) => state.base64);
+  const path = usePathname();
 
   const StyledBadge = styled(Badge)<BadgeProps>(() => ({
     '& .MuiBadge-badge': {
@@ -121,7 +125,7 @@ export default function CustomTabs() {
             multiline
             color={'primary'}
             minRows={4}
-            value={base64}
+            value={path}
           />
         </Box>
       </TabPanel>
