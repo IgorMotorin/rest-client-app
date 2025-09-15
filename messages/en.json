@@ -3,6 +3,11 @@
     "sampleTitle": "Final Task",
     "sampleSubtitle": "Project for the RS School React Course 2025"
   },
+  "Footer": {
+    "allRightsReserved": "All rights reserved",
+    "courseName": "RS School React Course",
+    "courseAlt": "Course logo"
+  },
   "OnboardingPage": {
     "welcome": "Welcome!",
     "welcomeSubtitle": "Sign in or create an account to continue.",

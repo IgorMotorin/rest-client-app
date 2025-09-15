@@ -3,6 +3,11 @@
     "sampleTitle": "Финальное задание",
     "sampleSubtitle": "Проект для курса RS School React 2025"
   },
+  "Footer": {
+    "allRightsReserved": "Все права защищены",
+    "courseName": "Курс React от RS School",
+    "courseAlt": "Логотип курса"
+  },
   "OnboardingPage": {
     "welcome": "Добро пожаловать!",
     "welcomeSubtitle": "Войдите в систему или создайте аккаунт, чтобы продолжить.",
