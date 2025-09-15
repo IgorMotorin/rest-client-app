@@ -6,7 +6,7 @@ import Link from 'next/link';
 export default function HomeNavigation() {
   const t = useTranslations('HomeNavigation');
   const tabs = [
-    { name: 'rest', path: '/rest' },
+    { name: 'rest', path: '/get' },
     { name: 'history', path: '/history' },
     { name: 'variables', path: '/variables' },
   ];
