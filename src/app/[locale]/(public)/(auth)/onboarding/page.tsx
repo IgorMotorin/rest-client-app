@@ -1,34 +1,52 @@
-import { Link } from '@/i18n/navigation';
+'use client';
+
+import SignInButton from '@/components/authButtons/SignInButton';
+import SignUpButton from '@/components/authButtons/SignUpButton';
 import { useTranslations } from 'next-intl';
+import { Box, Paper, Typography, Stack } from '@mui/material';
 
 export default function OnboardingPage() {
   const t = useTranslations('OnboardingPage');
 
   return (
-    <main className="min-h-screen text-text-color flex items-center justify-center px-4">
-      <section className="w-full max-w-xl">
-        <div className="bg-surface border border-border rounded-2xl shadow-sm p-8 sm:p-10 flex flex-col items-center text-center gap-4">
-          <h1 className="text-2xl sm:text-3xl font-semibold">{t('welcome')}</h1>
-          <p className="text-sm sm:text-base opacity-80">
-            {t('welcomeSubtitle')}
-          </p>
-
-          <div className="flex items-center justify-center gap-3">
-            <Link
-              href="/sign-in"
-              className="px-4 py-2 rounded-lg border border-border hover:border-primary transition-colors"
-            >
-              {t('signIn')}
-            </Link>
-            <Link
-              href="/sign-up"
-              className="px-4 py-2 rounded-lg bg-primary text-on-primary hover:opacity-90 transition-opacity"
-            >
-              {t('signUp')}
-            </Link>
-          </div>
-        </div>
-      </section>
-    </main>
+    <Box
+      component="main"
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        px: 2,
+        backgroundColor: 'background.default',
+        color: 'text.primary',
+      }}
+    >
+      <Paper
+        elevation={2}
+        sx={{
+          p: { xs: 4, sm: 6 },
+          maxWidth: '50%',
+          width: '100%',
+          textAlign: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 2,
+          borderRadius: 3,
+          border: 1,
+          borderColor: 'divider',
+          bgcolor: 'grey.100',
+        }}
+      >
+        <Typography variant="h4" component="h1" fontWeight={600}>
+          {t('welcome')}
+        </Typography>
+        <Typography variant="body1" color="text.secondary">
+          {t('welcomeSubtitle')}
+        </Typography>
+        <Stack direction="row" spacing={2} justifyContent="center" mt={2}>
+          <SignInButton />
+          <SignUpButton />
+        </Stack>
+      </Paper>
+    </Box>
   );
 }
