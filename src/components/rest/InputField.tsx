@@ -13,11 +13,15 @@ const InputField = () => {
   const router = useRouter();
 
   useEffect(() => {
+    const encoder = new TextEncoder();
+    const uint8Array = encoder.encode(url);
+    const binaryString = String.fromCharCode(...uint8Array);
+
     const arr = path.split('/');
     if (arr.length > 2) {
-      arr[2] = btoa(url);
+      arr[2] = btoa(binaryString);
     } else {
-      arr.push(btoa(url));
+      arr.push(btoa(binaryString));
     }
     const tmp = '/' + locale + arr.join('/');
 

@@ -103,6 +103,16 @@
     "body": "Body",
     "headers": "Headers",
     "authorization": "Authorization",
-    "generated": "Generated request code"
+    "generated": "Generated request code",
+    "rest": "REST Client"
+  },
+  "VariablesPage": {
+    "add": "add",
+    "variable": "variable",
+    "value": "value",
+    "del": "del",
+    "turn": "Active",
+    "variables": "Variables",
+    "values": "Values"
   }
 }
