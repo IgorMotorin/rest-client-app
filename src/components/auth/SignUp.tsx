@@ -8,9 +8,9 @@ import {
   Card,
   Field,
   Input,
-  Logo,
   SubmitButton,
 } from '@/components/auth/OnboardingUI';
+import Logo from '@/components/logo/Logo';
 import { useTranslations } from 'next-intl';
 import { useFirebaseAuth } from '@/services/auth/useFirebaseAuth';
 import { FirebaseError } from '@firebase/app';

@@ -1,7 +1,11 @@
 {
   "HomePage": {
-    "sampleTitle": "Final Task",
-    "sampleSubtitle": "Project for the RS School React Course 2025"
+    "welcomeTitle": "Welcome Back, {userEmail}!"
+  },
+  "Footer": {
+    "allRightsReserved": "All rights reserved",
+    "courseName": "RS School React Course",
+    "courseAlt": "Course logo"
   },
   "OnboardingPage": {
     "welcome": "Welcome!",
@@ -47,6 +51,10 @@
         "mismatch": "Passwords do not match"
       }
     }
+  },
+  "SignOut": {
+    "signOut": "Sign Out",
+    "signOutError": "An error occurred while signing out"
   },
   "auth": {
     "invalid-email": "Invalid email address.",

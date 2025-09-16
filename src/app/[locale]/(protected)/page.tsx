@@ -1,14 +1,41 @@
+'use client';
+
 import HomeNavigation from '@/components/home/HomeNavigation';
+import { useFirebaseAuth } from '@/services/auth/useFirebaseAuth';
 import { useTranslations } from 'next-intl';
+import { Box, Typography, Stack, Container } from '@mui/material';
 
 export default function Home() {
   const t = useTranslations('HomePage');
+  const { user } = useFirebaseAuth();
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center mx-4 gap-4">
-      <h1 className="text-3xl font-bold">{t('sampleTitle')}</h1>
-      <p className="text-md text-center">{t('sampleSubtitle')}</p>
-      <HomeNavigation />
-    </main>
+    <Box
+      component="main"
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        py: { xs: 6, sm: 8, md: 12 },
+        px: { xs: 2, sm: 4, md: 6 },
+        minHeight: '100vh',
+      }}
+    >
+      <Container maxWidth="md">
+        <Stack spacing={4} textAlign="center">
+          <Typography
+            variant="h3"
+            fontWeight="bold"
+            sx={{
+              fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' },
+            }}
+          >
+            {t('welcomeTitle', { userEmail: user?.email ?? '' })}
+          </Typography>
+
+          <HomeNavigation />
+        </Stack>
+      </Container>
+    </Box>
   );
 }

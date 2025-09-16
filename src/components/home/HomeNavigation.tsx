@@ -1,7 +1,7 @@
 'use client';
-import { usePathname } from '@/i18n/navigation';
+
+import { Box, Link } from '@mui/material';
 import { useLocale, useTranslations } from 'next-intl';
-import Link from 'next/link';
 
 export default function HomeNavigation() {
   const t = useTranslations('HomeNavigation');
@@ -12,26 +12,31 @@ export default function HomeNavigation() {
   ];
 
   const locale = useLocale();
-  const pathName = usePathname();
 
   return (
-    <nav className="flex gap-2 mb-4">
+    <Box
+      component="nav"
+      sx={{ display: 'flex', gap: 5, justifyContent: 'center' }}
+    >
       {tabs.map((tab) => {
-        const isActive = pathName.endsWith(tab.path);
         return (
           <Link
             key={tab.name}
             href={`/${locale}/${tab.path}`}
-            className={`px-4 py-2 rounded-t-md font-medium transition-colors ${
-              isActive
-                ? 'text-primary underline'
-                : 'text-primary hover:underline'
-            }`}
+            sx={{
+              fontSize: '1.5rem',
+              textDecoration: 'none',
+              borderBottom: '2px solid transparent',
+              transition: 'border-color 0.3s',
+              '&:hover': {
+                borderBottomColor: 'primary.main',
+              },
+            }}
           >
             {t(tab.name)}
           </Link>
         );
       })}
-    </nav>
+    </Box>
   );
 }
