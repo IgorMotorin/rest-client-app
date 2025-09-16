@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { FormControl, TextField } from '@mui/material';
 import { useRestStore } from '@/store/restStore';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { usePathname, useRouter } from '@/i18n/navigation';
 
 const InputField = () => {
   const t = useTranslations('Rest');
+  const locale = useLocale();
   const url = useRestStore((state) => state.url);
   const setUrl = useRestStore((state) => state.setUrl);
   const path = usePathname();
@@ -18,10 +19,11 @@ const InputField = () => {
     } else {
       arr.push(btoa(url));
     }
-    const tmp = arr.join('/');
+    const tmp = '/' + locale + arr.join('/');
+
     //router.replace(`${tmp}`);
     window.history.replaceState(null, '', `${tmp}`);
-  }, [path, router, url]);
+  }, [locale, path, router, url]);
 
   return (
     <FormControl className={'flex-4'}>
