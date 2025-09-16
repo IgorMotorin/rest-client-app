@@ -1,4 +1,4 @@
-import HomeNavigation from '@/components/home/HomeNavigation';
+import HomeNavigation from '@/app/[locale]/(protected)/HomeNavigation';
 import { useTranslations } from 'next-intl';
 
 export default function Home() {

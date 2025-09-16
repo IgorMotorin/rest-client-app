@@ -6,9 +6,9 @@ import Link from 'next/link';
 export default function HomeNavigation() {
   const t = useTranslations('HomeNavigation');
   const tabs = [
-    { name: 'rest', path: '/get' },
-    { name: 'history', path: '/history' },
-    { name: 'variables', path: '/variables' },
+    { name: 'rest', path: 'get' },
+    { name: 'history', path: 'history' },
+    { name: 'variables', path: 'variables' },
   ];
 
   const locale = useLocale();
