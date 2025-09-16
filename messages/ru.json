@@ -1,7 +1,11 @@
 {
   "HomePage": {
-    "sampleTitle": "Финальное задание",
-    "sampleSubtitle": "Проект для курса RS School React 2025"
+    "welcomeTitle": "Добро пожаловать, {userEmail}!"
+  },
+  "Footer": {
+    "allRightsReserved": "Все права защищены",
+    "courseName": "Курс React от RS School",
+    "courseAlt": "Логотип курса"
   },
   "OnboardingPage": {
     "welcome": "Добро пожаловать!",
@@ -47,6 +51,10 @@
         "mismatch": "Пароли не совпадают"
       }
     }
+  },
+  "SignOut": {
+    "signOut": "Выйти",
+    "signOutError": "Произошла ошибка выхода"
   },
   "auth": {
     "invalid-email": "Некорректный адрес электронной почты.",
