@@ -98,7 +98,7 @@
     "generated": "Generated request code",
     "rest": "REST Client"
   },
-  "Variables": {
+  "VariablesPage": {
     "add": "add",
     "variable": "variable",
     "value": "value",

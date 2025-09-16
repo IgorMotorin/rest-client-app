@@ -98,7 +98,7 @@
     "generated": "Сгенерированный код запроса",
     "rest": "REST Клиент"
   },
-  "variables": {
+  "VariablesPage": {
     "add": "Добавить",
     "variable": "переменная",
     "value": "значение",

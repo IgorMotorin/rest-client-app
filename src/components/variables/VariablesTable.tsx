@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useTranslations } from 'next-intl';
 import Paper from '@mui/material/Paper';
 import { Box, Stack } from '@mui/system';
 import {
@@ -12,7 +13,6 @@ import {
   TableRow,
   TextField,
 } from '@mui/material';
-import { useTranslations } from 'next-intl';
 
 export type tRows = {
   id: number;
@@ -30,7 +30,7 @@ export default function VariablesTable({
   setRows: (headers: tRows) => void;
   setLocalStorage: (rows: tRows) => void;
 }) {
-  const t = useTranslations('variables');
+  const t = useTranslations('VariablesPage');
   const handleCheckboxChange = (id: number) => {
     const newRows = [...rows];
     const index = newRows.findIndex((x) => x.id === id);

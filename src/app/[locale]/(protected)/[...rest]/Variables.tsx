@@ -1,15 +1,16 @@
 'use client';
+import { useTranslations } from 'next-intl';
 import React, { useEffect, useMemo } from 'react';
 
 import { useVariablesStore } from '@/store/variablesStore';
 import VariablesTable, { tRows } from '@/components/variables/VariablesTable';
 import { Container } from '@mui/system';
 import { Typography } from '@mui/material';
-import { useTranslations } from 'next-intl';
+
 import { useFirebaseAuth } from '@/services/auth/useFirebaseAuth';
 
 export default function Variables() {
-  const t = useTranslations('variables');
+  const t = useTranslations('VariablesPage');
   const variables = useVariablesStore((state) => state.variables);
   const setVariables = useVariablesStore((state) => state.setVariables);
   const { user } = useFirebaseAuth();
