@@ -26,6 +26,7 @@ export interface UserRequest {
   body: tBody;
   bodyTable: tBodyTable;
   headers: tQuery;
+  tabs: number;
   setBase64: (base64: string) => void;
   setMethod: (method: string) => void;
   setUrl: (url: string) => void;
@@ -33,10 +34,18 @@ export interface UserRequest {
   setBody: (body: tBody) => void;
   setBodyTable: (bodyTable: tBodyTable) => void;
   setHeaders: (headers: tQuery) => void;
+  setTabs: (tabs: number) => void;
 }
 
 const arr = new Array(3);
 const queryDefault = arr.fill(1).map((item, index) => ({
+  id: index,
+  key: '',
+  value: '',
+  select: false,
+}));
+
+const headersDefault = arr.fill(1).map((item, index) => ({
   id: index,
   key: '',
   value: '',
@@ -77,7 +86,8 @@ export const useRestStore = create<UserRequest>((set) => ({
   query: queryDefault,
   body: bodyDefault,
   bodyTable: bodyTableDefault,
-  headers: queryDefault,
+  headers: headersDefault,
+  tabs: 1,
   setBase64: (base64) => set({ base64: base64 }),
   setMethod: (method) => set({ method: method }),
   setUrl: (url) => set({ url: url }),
@@ -85,4 +95,5 @@ export const useRestStore = create<UserRequest>((set) => ({
   setBody: (body: tBody) => set({ body: body }),
   setBodyTable: (bodyTable: tBodyTable) => set({ bodyTable: bodyTable }),
   setHeaders: (headers: tQuery) => set({ headers: headers }),
+  setTabs: (tabs) => set({ tabs: tabs }),
 }));
