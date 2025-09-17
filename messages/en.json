@@ -1,0 +1,118 @@
+{
+  "HomePage": {
+    "welcomeTitle": "Welcome Back, {userEmail}!"
+  },
+  "Footer": {
+    "allRightsReserved": "All rights reserved",
+    "courseName": "RS School React Course",
+    "courseAlt": "Course logo"
+  },
+  "OnboardingPage": {
+    "welcome": "Welcome!",
+    "welcomeSubtitle": "Sign in or create an account to continue.",
+    "signIn": "Sign In",
+    "signUp": "Sign Up"
+  },
+  "NotFoundPage": {
+    "title": "Page Not Found",
+    "description": "The page you are looking for does not exist."
+  },
+  "SignIn": {
+    "emailPlaceholder": "Email",
+    "passwordPlaceholder": "Password",
+    "submit": "Sign In",
+    "unknownError": "An unknown error occurred.",
+    "noAccount": "Don’t have an account?",
+    "signUp": "Sign Up",
+    "validation": {
+      "email": "Enter a valid email",
+      "passwordRequired": "Password is required"
+    }
+  },
+  "SignUp": {
+    "emailPlaceholder": "Email",
+    "passwordPlaceholder": "Password",
+    "confirmPasswordPlaceholder": "Confirm password",
+    "submit": "Create account",
+    "unknownError": "An unknown error occurred.",
+    "alreadyHaveAccount": "Already have an account?",
+    "signIn": "Sign In",
+    "validation": {
+      "email": "Enter a valid email",
+      "password": {
+        "min": "Use at least 8 characters",
+        "letter": "Must include at least one letter",
+        "uppercase": "Must include at least one uppercase letter",
+        "digit": "Must include at least one digit",
+        "special": "Must include at least one special character"
+      },
+      "confirmPassword": {
+        "min": "Please confirm your password",
+        "mismatch": "Passwords do not match"
+      }
+    }
+  },
+  "SignOut": {
+    "signOut": "Sign Out",
+    "signOutError": "An error occurred while signing out"
+  },
+  "auth": {
+    "invalid-email": "Invalid email address.",
+    "missing-email": "Email is required.",
+    "missing-password": "Password is required.",
+    "wrong-password": "Incorrect email or password.",
+    "user-not-found": "No account found with that email.",
+    "user-disabled": "This account has been disabled.",
+    "email-already-in-use": "Email is already in use.",
+    "operation-not-allowed": "Sign-in method is disabled.",
+    "weak-password": "Password is too weak.",
+    "invalid-credential": "Wrong username or password.",
+
+    "popup-closed-by-user": "Sign-in canceled.",
+    "cancelled-popup-request": "Another sign-in is in progress.",
+    "credential-already-in-use": "Credential already linked to another account.",
+
+    "invalid-verification-code": "Invalid verification code.",
+    "invalid-verification-id": "Invalid verification session.",
+
+    "too-many-requests": "Too many attempts. Try again later.",
+    "network-request-failed": "Network error. Check your connection.",
+
+    "requires-recent-login": "Please reauthenticate to continue.",
+
+    "expired-action-code": "This link has expired.",
+    "invalid-action-code": "This link is invalid."
+  },
+  "HomeNavigation": {
+    "rest": "REST Client",
+    "history": "History",
+    "variables": "Variables"
+  },
+  "HistoryRequests": {
+    "title": "History Requests"
+  },
+  "Rest": {
+    "select": "Select method",
+    "url": "Enter or paste endpoint URL",
+    "send": "Send",
+    "query": "Query params",
+    "add": "add a row",
+    "key": "key",
+    "value": "value",
+    "del": "del",
+    "body": "Body",
+    "headers": "Headers",
+    "authorization": "Authorization",
+    "generated": "Generated request code",
+    "rest": "REST Client"
+  },
+  "VariablesPage": {
+    "add": "add",
+    "variable": "variable",
+    "value": "value",
+    "del": "del",
+    "turn": "Active",
+    "variables": "Variables",
+    "values": "Values"
+  }
+}
