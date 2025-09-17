@@ -1,13 +1,15 @@
 import { Box, styled } from '@mui/system';
 import { Badge, BadgeProps, Tab, Tabs } from '@mui/material';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import DataTable from '@/components/rest/DataTable';
 import { useRestStore } from '@/store/restStore';
 import MultilineTextFields from '@/components/rest/MultilineTextField';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import TextField from '@mui/material/TextField';
 import * as React from 'react';
 import { usePathname } from '@/i18n/navigation';
+import { useVariablesStore } from '@/store/variablesStore';
+import { replaceVariables, textToBase64, Vars } from '@/accessory/function';
 
 function TabPanel(props: {
   value: number;
@@ -17,6 +19,17 @@ function TabPanel(props: {
   if (props.value !== props.index) return null;
   return <Box>{props.children}</Box>;
 }
+
+const StyledBadge = styled(Badge)<BadgeProps>(() => ({
+  '& .MuiBadge-badge': {
+    right: -6,
+    top: -4,
+    height: '16px',
+    minWidth: '16px',
+    fontSize: '10px',
+    padding: 0,
+  },
+}));
 
 export default function CustomTabs() {
   const t = useTranslations('Rest');
@@ -36,17 +49,31 @@ export default function CustomTabs() {
   const bodyTable = useRestStore((state) => state.bodyTable);
 
   const path = usePathname();
+  const locale = useLocale();
 
-  const StyledBadge = styled(Badge)<BadgeProps>(() => ({
-    '& .MuiBadge-badge': {
-      right: -6,
-      top: -4,
-      height: '16px',
-      minWidth: '16px',
-      fontSize: '10px',
-      padding: 0,
-    },
-  }));
+  const variables = useVariablesStore((state) => state.variables);
+
+  const [error, setError] = React.useState('');
+
+  useEffect(() => {
+    const obj: Vars = {};
+    query.forEach((item) => {
+      if (!item.select) return;
+      obj[item.key] = item.value;
+    });
+    if (Object.entries(obj).length === 0) return;
+
+    const textQuery = JSON.stringify(obj);
+    const [vars, onVars] = replaceVariables(textQuery, variables);
+    setError(onVars && textQuery === vars ? 'Variable not found: ' : '');
+
+    const base64Url =
+      typeof vars === 'string'
+        ? '/' + locale + textToBase64(vars, path, 3)
+        : '';
+
+    window.history.replaceState(null, '', `${base64Url}`);
+  }, [locale, path, query, variables]);
 
   return (
     <>
@@ -60,7 +87,7 @@ export default function CustomTabs() {
             label={
               <StyledBadge
                 badgeContent={query.filter((item) => item.select).length}
-                color="primary"
+                color={error ? 'error' : 'primary'}
               >
                 {t('query')}
               </StyledBadge>
