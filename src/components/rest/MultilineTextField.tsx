@@ -5,17 +5,38 @@ import { FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import { useRestStore } from '@/store/restStore';
 import DataTable from '@/components/rest/DataTable';
 import { useEffect, useState } from 'react';
+import {
+  preSelectHeaders,
+  replaceVariables,
+  textToBase64,
+  Vars,
+} from '@/accessory/function';
+import { usePathname } from '@/i18n/navigation';
+import { useLocale } from 'next-intl';
+import { useVariablesStore } from '@/store/variablesStore';
 
 export default function MultilineTextFields() {
   const body = useRestStore((state) => state.body);
   const setBody = useRestStore((state) => state.setBody);
   const bodyTable = useRestStore((state) => state.bodyTable);
   const setBodyTable = useRestStore((state) => state.setBodyTable);
+
+  const headers = useRestStore((state) => state.headers);
+  const setHeaders = useRestStore((state) => state.setHeaders);
+
   const handleRadioGroup = (e: { target: { value: string } }) => {
     const value = e.target.value;
     setBody({ ...body, select: value });
+    const arr = [...headers];
+    arr[0] = preSelectHeaders(value);
+    setHeaders(arr);
   };
   const [err, setError] = useState('');
+
+  const path = usePathname();
+  const locale = useLocale();
+
+  const variables = useVariablesStore((state) => state.variables);
 
   const selectValueTextField = () => {
     if (body.select === 'text') return body.text;
@@ -36,6 +57,37 @@ export default function MultilineTextFields() {
   };
 
   useEffect(() => {
+    const selectText = (select: string) => {
+      if (select === 'none') return '';
+      if (select === 'text') return body.text;
+      if (select === 'json') return body.json;
+      if (select === 'form') {
+        const obj: Vars = {};
+        bodyTable.forEach((item) => {
+          if (!item.select) return;
+          obj[item.key] = item.value;
+        });
+        if (Object.entries(obj).length === 0) return '';
+
+        return JSON.stringify(obj);
+      }
+      return '';
+    };
+
+    const textQuery = selectText(body.select);
+    const [vars, onVars] = replaceVariables(textQuery, variables);
+
+    setError(onVars && textQuery === vars ? 'Variable not found: ' : '');
+
+    const base64Url =
+      typeof vars === 'string'
+        ? '/' + locale + textToBase64(vars, path, 3)
+        : '';
+
+    window.history.replaceState(null, '', `${base64Url}`);
+  }, [locale, path, bodyTable, variables, body.select, body.text, body.json]);
+
+  useEffect(() => {
     const checkError = () => {
       try {
         JSON.parse(body.json);
@@ -48,6 +100,7 @@ export default function MultilineTextFields() {
         }
       }
     };
+
     checkError();
   }, [body.json]);
 

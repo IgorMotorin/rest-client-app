@@ -4,8 +4,8 @@ import { methods } from '@/accessory/constants';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
 import { useRestStore } from '@/store/restStore';
-import { useTranslations } from 'next-intl';
-import { usePathname, useRouter } from '@/i18n/navigation';
+import { useLocale, useTranslations } from 'next-intl';
+import { usePathname } from '@/i18n/navigation';
 
 const SelectInput = () => {
   const t = useTranslations('Rest');
@@ -13,14 +13,15 @@ const SelectInput = () => {
   const method = useRestStore((state) => state.method);
   const setMethod = useRestStore((state) => state.setMethod);
 
-  const router = useRouter();
   const path = usePathname();
+  const locale = useLocale();
 
   const setPathname = (pathname: string) => {
     const arr = path.split('/');
     arr[1] = pathname;
-    const tmp = arr.join('/');
-    router.push(`${tmp}`);
+    const tmp = '/' + locale + arr.join('/');
+    // router.push(`${tmp}`);
+    window.history.replaceState(null, '', `${tmp}`);
   };
 
   return (
