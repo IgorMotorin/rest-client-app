@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-type tVariables = {
+export type tVariables = {
   id: number;
   key: string;
   value: string;
