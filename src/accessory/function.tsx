@@ -36,6 +36,40 @@ export const textToBase64 = (text: string, path: string, num: number) => {
   } else {
     arr.push(btoa(binaryString));
   }
+  const tmp = arr.join('/');
 
-  return arr.join('/');
+  return tmp;
+};
+
+export const preSelectHeaders = (value: string) => {
+  const tmp = {
+    id: 0,
+    key: '',
+    value: '',
+    select: false,
+  };
+
+  if (value === 'form') {
+    tmp.key = 'Content-Type';
+    tmp.value = 'application/x-www-form-urlencoded';
+    tmp.select = true;
+    return tmp;
+  }
+  if (value === 'json') {
+    tmp.key = 'Content-Type';
+    tmp.value = 'application/json';
+    tmp.select = true;
+    return tmp;
+  }
+  if (value === 'text') {
+    tmp.key = 'Content-Type';
+    tmp.value = 'text/plain';
+    tmp.select = true;
+    return tmp;
+  }
+  if (value === 'none') {
+    return tmp;
+  }
+
+  return tmp;
 };

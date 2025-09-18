@@ -9,7 +9,8 @@ import TextField from '@mui/material/TextField';
 import * as React from 'react';
 import { usePathname } from '@/i18n/navigation';
 import { useVariablesStore } from '@/store/variablesStore';
-import { replaceVariables, textToBase64, Vars } from '@/accessory/function';
+import { replaceVariables, Vars } from '@/accessory/function';
+import { useSearchParams } from 'next/navigation';
 
 function TabPanel(props: {
   value: number;
@@ -50,6 +51,7 @@ export default function CustomTabs() {
 
   const path = usePathname();
   const locale = useLocale();
+  const searchParams = useSearchParams();
 
   const variables = useVariablesStore((state) => state.variables);
 
@@ -57,23 +59,31 @@ export default function CustomTabs() {
 
   useEffect(() => {
     const obj: Vars = {};
-    query.forEach((item) => {
+    headers.forEach((item) => {
       if (!item.select) return;
       obj[item.key] = item.value;
     });
-    if (Object.entries(obj).length === 0) return;
+    if (Object.entries(obj).length === 0) {
+      const url = '/' + locale + path;
+      window.history.replaceState(null, '', `${url}`);
+      return;
+    }
 
-    const textQuery = JSON.stringify(obj);
+    const textQuery =
+      Object.entries(obj).length === 0 ? '{}' : JSON.stringify(obj);
     const [vars, onVars] = replaceVariables(textQuery, variables);
     setError(onVars && textQuery === vars ? 'Variable not found: ' : '');
+    const finalHeaders = typeof vars === 'string' ? JSON.parse(vars) : {};
+    const params = new URLSearchParams('');
+    const keys = Object.keys(finalHeaders);
+    keys.forEach((key) => {
+      params.set(key, finalHeaders[key]);
+    });
 
-    const base64Url =
-      typeof vars === 'string'
-        ? '/' + locale + textToBase64(vars, path, 3)
-        : '';
+    const url = '/' + locale + path + '?' + params.toString();
 
-    window.history.replaceState(null, '', `${base64Url}`);
-  }, [locale, path, query, variables]);
+    window.history.replaceState(null, '', `${url}`);
+  }, [locale, path, headers, variables, searchParams]);
 
   return (
     <>
@@ -87,7 +97,7 @@ export default function CustomTabs() {
             label={
               <StyledBadge
                 badgeContent={query.filter((item) => item.select).length}
-                color={error ? 'error' : 'primary'}
+                color={'primary'}
               >
                 {t('query')}
               </StyledBadge>
@@ -115,7 +125,7 @@ export default function CustomTabs() {
             label={
               <StyledBadge
                 badgeContent={headers.filter((item) => item.select).length}
-                color="primary"
+                color={error ? 'error' : 'primary'}
               >
                 {t('headers')}
               </StyledBadge>
