@@ -8,9 +8,9 @@ import {
   getAuth,
   indexedDBLocalPersistence,
   initializeAuth,
-} from '@firebase/auth';
-import { Firestore, getFirestore } from '@firebase/firestore';
-import { FirebaseStorage, getStorage } from '@firebase/storage';
+} from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -39,5 +39,5 @@ try {
 }
 export const auth = _auth;
 
-export const db: Firestore = getFirestore(app);
-export const storage: FirebaseStorage = getStorage(app);
+export const db = getFirestore(app);
+export const storage = getStorage(app);

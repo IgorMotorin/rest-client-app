@@ -10,9 +10,12 @@ import { Button, Typography } from '@mui/material';
 import CustomTabs from '../../../../components/rest/CustomTabs';
 import { useRestStore } from '@/store/restStore';
 import { useTranslations } from 'next-intl';
+import { useFirebaseAuth } from '@/services/auth/useFirebaseAuth';
+import { sendRequest } from '@/lib/sendRequest';
 
 export default function Rest({ method = '' }: { method: string }) {
   const t = useTranslations('Rest');
+  const { user } = useFirebaseAuth();
 
   const setMethod = useRestStore((state) => state.setMethod);
   useEffect(() => {
@@ -20,6 +23,12 @@ export default function Rest({ method = '' }: { method: string }) {
       setMethod(method.toLowerCase());
     }
   }, [method, setMethod]);
+
+  const handleSend = async () => {
+    if (!user) return;
+    await sendRequest(user.uid);
+  };
+
   return (
     <Container maxWidth="xl">
       <Typography
@@ -33,7 +42,9 @@ export default function Rest({ method = '' }: { method: string }) {
       <Box className={'flex m-2'}>
         <SelectInput></SelectInput>
         <InputField></InputField>
-        <Button variant="contained">{t('send')}</Button>
+        <Button variant="contained" onClick={handleSend}>
+          {t('send')}
+        </Button>
       </Box>
       <CustomTabs></CustomTabs>
     </Container>
