@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server';
-import { db } from '@/lib/firebaseAdmin';
-import admin from 'firebase-admin';
+import { adminDb } from '@/lib/firebaseAdmin';
+import { FieldValue } from 'firebase-admin/firestore';
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -11,18 +11,18 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const userDocRef = db.collection('requests').doc(userId);
-
-    await userDocRef.set(
-      {
-        history: admin.firestore.FieldValue.arrayUnion({
-          ...historyItem,
-          timestamp: admin.firestore.FieldValue.serverTimestamp(),
-        }),
-      },
-      { merge: true }
-    );
-
+    try {
+      const ref = adminDb.doc(`users/${userId}`);
+      await ref.set(
+        {
+          history: FieldValue.arrayUnion({ ...historyItem }),
+          updatedAt: FieldValue.serverTimestamp(),
+        },
+        { merge: true }
+      );
+    } catch (e) {
+      console.error(e);
+    }
     return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json({
