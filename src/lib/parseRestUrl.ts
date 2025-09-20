@@ -34,11 +34,13 @@ export function parseRestUrl(url: string): HistoryItem | null {
       const params = new URLSearchParams(queryString);
       let hId = 0,
         qId = 0;
+
       params.forEach((value, key) => {
-        if (/content-type|authorization|accept/i.test(key)) {
-          headers.push({ id: hId++, key, value, select: true });
+        if (key.startsWith('q.')) {
+          const name = key.slice(2);
+          query.push({ id: qId++, key: name, value, select: true });
         } else {
-          query.push({ id: qId++, key, value, select: true });
+          headers.push({ id: hId++, key, value, select: true });
         }
       });
     }
