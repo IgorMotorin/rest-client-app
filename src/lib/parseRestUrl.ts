@@ -32,15 +32,18 @@ export function parseRestUrl(url: string): HistoryItem | null {
     const query: tQuery = [];
     if (queryString?.length) {
       const params = new URLSearchParams(queryString);
-      let hId = 0,
-        qId = 0;
 
       params.forEach((value, key) => {
-        if (key.startsWith('q.')) {
+        if (key.startsWith('h.')) {
           const name = key.slice(2);
-          query.push({ id: qId++, key: name, value, select: true });
+          headers.push({
+            id: headers.length + 1,
+            key: name,
+            value,
+            select: true,
+          });
         } else {
-          headers.push({ id: hId++, key, value, select: true });
+          query.push({ id: query.length + 2, key, value, select: true });
         }
       });
     }

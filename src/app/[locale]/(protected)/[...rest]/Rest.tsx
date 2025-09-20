@@ -6,12 +6,7 @@ import CustomTabs from '../../../../components/rest/CustomTabs';
 import { methods } from '@/accessory/constants';
 import { Box, Container } from '@mui/system';
 import { Button, Typography } from '@mui/material';
-import {
-  useRestStore,
-  queryDefault,
-  headersDefault,
-  bodyTableDefault,
-} from '@/store/restStore';
+import { useRestStore, bodyTableDefault } from '@/store/restStore';
 import { useTranslations } from 'next-intl';
 import { useFirebaseAuth } from '@/services/auth/useFirebaseAuth';
 import { sendRequest } from '@/lib/sendRequest';
@@ -38,6 +33,7 @@ export default function Rest({ method = '' }: { method: string }) {
   }, [method, setMethod]);
 
   useEffect(() => {
+    if (!searchParams || !searchParams.toString()) return;
     const fullUrl =
       pathname + (searchParams.toString() ? '?' + searchParams.toString() : '');
     const item = parseRestUrl(fullUrl);
@@ -45,20 +41,11 @@ export default function Rest({ method = '' }: { method: string }) {
 
     setMethod(item.method);
     setUrl(item.endpoint);
-    setQuery(item.query.length ? item.query : queryDefault);
-    setHeaders(item.headers.length ? item.headers : headersDefault);
+    setQuery(item.query);
+    setHeaders(item.headers);
     setBodyTable(item.bodyTable.length ? item.bodyTable : bodyTableDefault);
     setBody(item.body || { select: 'none', text: '', json: '{}' });
-  }, [
-    pathname,
-    searchParams,
-    setMethod,
-    setUrl,
-    setQuery,
-    setHeaders,
-    setBody,
-    setBodyTable,
-  ]);
+  }, [pathname, searchParams]);
 
   const handleSend = async () => {
     if (!user) return;
