@@ -1,13 +1,16 @@
 import { tVariables } from '@/store/variablesStore';
+
 export interface Vars {
   [key: string]: string;
 }
+
 export const replaceVariables = (
   template: string,
   vars: tVariables
-): (string | boolean)[] => {
+): [string, boolean] => {
   let result = template;
   const obj: Vars = {};
+
   vars.forEach((item) => {
     if (!item.select) return;
     obj[item.key] = item.value;
@@ -18,7 +21,6 @@ export const replaceVariables = (
 
   Object.keys(obj).forEach((key) => {
     const regex = new RegExp('\\{\\{\\s*' + key + '\\s*\\}\\}', 'g');
-
     result = result.replace(regex, obj[key]);
   });
 
@@ -36,9 +38,17 @@ export const textToBase64 = (text: string, path: string, num: number) => {
   } else {
     arr.push(btoa(binaryString));
   }
-  const tmp = arr.join('/');
+  return arr.join('/');
+};
 
-  return tmp;
+export const base64ToText = (b64: string): string => {
+  const binaryString = atob(b64);
+  const uint8Array = new Uint8Array(binaryString.length);
+  for (let i = 0; i < binaryString.length; i++) {
+    uint8Array[i] = binaryString.charCodeAt(i);
+  }
+  const decoder = new TextDecoder();
+  return decoder.decode(uint8Array);
 };
 
 export const preSelectHeaders = (value: string) => {
@@ -49,26 +59,25 @@ export const preSelectHeaders = (value: string) => {
     select: false,
   };
 
-  if (value === 'form') {
-    tmp.key = 'Content-Type';
-    tmp.value = 'application/x-www-form-urlencoded';
-    tmp.select = true;
-    return tmp;
-  }
-  if (value === 'json') {
-    tmp.key = 'Content-Type';
-    tmp.value = 'application/json';
-    tmp.select = true;
-    return tmp;
-  }
-  if (value === 'text') {
-    tmp.key = 'Content-Type';
-    tmp.value = 'text/plain';
-    tmp.select = true;
-    return tmp;
-  }
-  if (value === 'none') {
-    return tmp;
+  switch (value) {
+    case 'form':
+      tmp.key = 'Content-Type';
+      tmp.value = 'application/x-www-form-urlencoded';
+      tmp.select = true;
+      break;
+    case 'json':
+      tmp.key = 'Content-Type';
+      tmp.value = 'application/json';
+      tmp.select = true;
+      break;
+    case 'text':
+      tmp.key = 'Content-Type';
+      tmp.value = 'text/plain';
+      tmp.select = true;
+      break;
+    case 'none':
+    default:
+      break;
   }
 
   return tmp;

@@ -39,27 +39,27 @@ export interface UserRequest {
 }
 
 const arr = new Array(3);
-const queryDefault = arr.fill(1).map((item, index) => ({
+export const queryDefault = arr.fill(1).map((item, index) => ({
   id: index,
   key: '',
   value: '',
   select: false,
 }));
 
-const headersDefault = arr.fill(1).map((item, index) => ({
+export const headersDefault = arr.fill(1).map((item, index) => ({
   id: index,
   key: '',
   value: '',
   select: false,
 }));
 
-const bodyDefault = {
+export const bodyDefault = {
   select: 'none',
   text: '',
   json: '{}',
 };
 
-const bodyTableDefault = [
+export const bodyTableDefault = [
   {
     id: 0,
     key: '',

@@ -1,8 +1,15 @@
-import { Stack, Typography, List, ListItem, Paper, Link } from '@mui/material';
+import {
+  Stack,
+  Typography,
+  List,
+  ListItem,
+  Paper,
+  Link as MuiLink,
+} from '@mui/material';
 import { HistoryItem } from '@/lib/sendHistory';
 import { getFirestore } from 'firebase-admin/firestore';
 import NextLink from 'next/link';
-import { Link as MuiLink } from '@mui/material';
+import { buildRestUrl } from '@/lib/urlBuilder';
 
 type HistoryProps = {
   userId: string;
@@ -11,7 +18,6 @@ type HistoryProps = {
 
 export default async function History({ userId, locale }: HistoryProps) {
   const adminDb = getFirestore();
-
   const docRef = adminDb.collection('users').doc(userId);
   const docSnap = await docRef.get();
 
@@ -21,9 +27,6 @@ export default async function History({ userId, locale }: HistoryProps) {
         <Typography variant="h6" gutterBottom>
           You haven&apos;t executed any requests yet
         </Typography>
-        <Typography variant="body1" gutterBottom>
-          It&apos;s empty here. Try:
-        </Typography>
         <MuiLink component={NextLink} href={`/${locale}/get`}>
           REST Client
         </MuiLink>
@@ -32,7 +35,6 @@ export default async function History({ userId, locale }: HistoryProps) {
   }
 
   const data = docSnap.data();
-
   const history: HistoryItem[] = (data?.history || []).sort(
     (a: HistoryItem, b: HistoryItem) =>
       new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
@@ -45,16 +47,17 @@ export default async function History({ userId, locale }: HistoryProps) {
         {history.map((item, idx) => (
           <ListItem key={idx}>
             <Paper sx={{ p: 2, width: '100%' }}>
-              <Link
-                href={`/rest-client?endpoint=${encodeURIComponent(item.endpoint)}&method=${item.method}`}
+              <MuiLink
+                component={NextLink}
+                href={buildRestUrl(locale, item)}
                 underline="hover"
                 sx={{ fontWeight: 'bold' }}
               >
-                [{item.method}] {item.endpoint}
-              </Link>
+                [{item.method.toUpperCase()}] {item.endpoint}
+              </MuiLink>
               <Typography variant="body2" color="text.secondary">
-                Status: {item.statusCode} | Latency: {item.latency.toFixed(1)}ms
-                | Date: {new Date(item.timestamp).toLocaleString()}
+                Status: {item.statusCode} | Latency: {item.latency?.toFixed(1)}
+                ms | Date: {new Date(item.timestamp).toLocaleString()}
               </Typography>
             </Paper>
           </ListItem>
