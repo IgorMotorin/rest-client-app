@@ -1,11 +1,26 @@
-import { useTranslations } from 'next-intl';
+import { cookies } from 'next/headers';
+import { verifyIdToken } from '@/lib/firebaseAdmin';
+import History from '@/components/history/History';
 
-export default function HistoryPage() {
-  const t = useTranslations();
+type HistoryPageProps = {
+  params: { locale: string };
+};
 
-  return (
-    <main>
-      <h1>{t('HistoryRequests.title')}</h1>
-    </main>
-  );
+export default async function HistoryPage({ params }: HistoryPageProps) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('token')?.value;
+
+  if (!token) {
+    return <div>Please sign in to view your history.</div>;
+  }
+
+  try {
+    const decoded = await verifyIdToken(token);
+    const userId = decoded.uid;
+
+    return <History userId={userId} locale={params.locale} />;
+  } catch (err) {
+    console.error(err);
+    return <div>Unauthorized</div>;
+  }
 }

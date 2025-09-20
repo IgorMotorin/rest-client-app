@@ -21,3 +21,6 @@ const app = getApps().length
 
 export const adminDb = getFirestore(app);
 export const adminAuth = getAdminAuth(app);
+export async function verifyIdToken(token: string) {
+  return await adminAuth.verifyIdToken(token);
+}
