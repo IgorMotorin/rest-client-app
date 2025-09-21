@@ -30,6 +30,8 @@ export default function Rest({
   const setBody = useRestStore((state) => state.setBody);
 
   const setHeaders = useRestStore((state) => state.setHeaders);
+  const setQuery = useRestStore((state) => state.setQuery);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const { user } = useFirebaseAuth();
@@ -51,16 +53,27 @@ export default function Rest({
 
     if (Object.keys(search).length > 0) {
       const params = new URLSearchParams(search);
-      const arr: tQuery = [];
-      params.forEach((value, key) =>
-        arr.push({
-          id: arr.length,
-          key: key,
-          value: value,
-          select: true,
-        })
-      );
-      setHeaders(arr);
+      const headersArr: tQuery = [];
+      const queryArr: tQuery = [];
+      params.forEach((value, key) => {
+        if (key.startsWith('h.')) {
+          headersArr.push({
+            id: headersArr.length,
+            key: key.replace('h.', ''),
+            value,
+            select: true,
+          });
+        } else {
+          queryArr.push({
+            id: queryArr.length,
+            key,
+            value,
+            select: true,
+          });
+        }
+      });
+      setHeaders(headersArr);
+      setQuery(queryArr);
     }
   }, [rest, search]);
 
