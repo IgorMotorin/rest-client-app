@@ -2,7 +2,8 @@ import { HistoryItem } from '@/lib/sendHistory';
 
 export const buildRestUrl = (locale: string, item: HistoryItem) => {
   const base64Endpoint = btoa(item.endpoint ?? '');
-  const url = `/${locale}/${item.method}/${base64Endpoint}`;
+  const base64Ts = btoa(item.timestamp);
+  const url = `/${locale}/${item.method}/${base64Endpoint}/${base64Ts}`;
 
   const params = new URLSearchParams();
 

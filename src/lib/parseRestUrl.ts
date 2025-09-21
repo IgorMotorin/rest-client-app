@@ -29,12 +29,6 @@ export function parseRestUrl(url: string): HistoryItem | null {
       }
     }
 
-    // const currentHeaders = useRestStore.getState().headers;
-    // const currentQuery = useRestStore.getState().query;
-
-    // console.log('parseHeaders:' + currentHeaders);
-    // console.log('parseHeaders:' + currentQuery);
-
     const headers: tQuery = [];
     const query: tQuery = [];
 
@@ -42,7 +36,6 @@ export function parseRestUrl(url: string): HistoryItem | null {
       const params = new URLSearchParams(queryString);
 
       params.forEach((value, key) => {
-        console.log('parseRestUrl param:', { key, value });
         if (key.startsWith('h.')) {
           const name = key.slice(2);
           const existingHeader = headers.find((h) => h.key === name);
@@ -69,9 +62,6 @@ export function parseRestUrl(url: string): HistoryItem | null {
         }
       });
     }
-
-    console.log('parsed headers:', headers);
-    console.log('parsed query:', query);
 
     let bodyTable = bodyTableDefault;
     if (body.select === 'json' && body.json) {

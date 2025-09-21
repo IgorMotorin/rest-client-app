@@ -25,10 +25,8 @@ export default function Rest({
   const setUrl = useRestStore((state) => state.setUrl);
 
   const setMethod = useRestStore((state) => state.setMethod);
-
-  const body = useRestStore((state) => state.body);
   const setBody = useRestStore((state) => state.setBody);
-
+  const setBodyTable = useRestStore((state) => state.setBodyTable);
   const setHeaders = useRestStore((state) => state.setHeaders);
   const setQuery = useRestStore((state) => state.setQuery);
 
@@ -38,7 +36,11 @@ export default function Rest({
   const userId = user?.uid;
 
   useEffect(() => {
-    const [method, url, bodyUrl] = rest;
+    const [method, url, tsEncoded] = rest;
+    console.log(tsEncoded);
+    const timestamp = tsEncoded ? String(atob(tsEncoded)) : '';
+
+    console.log(timestamp);
 
     if (method && methods.includes(rest[0].toLowerCase())) {
       setMethod(rest[0].toLowerCase());
@@ -46,9 +48,30 @@ export default function Rest({
     if (url) {
       setUrl(base64ToText(url));
     }
-    if (bodyUrl) {
-      const out = base64ToText(bodyUrl);
-      setBody({ ...body, json: out, select: 'json' });
+    if (timestamp && userId) {
+      const fetchBody = async () => {
+        try {
+          const res = await fetch(
+            `/api/getBody?userId=${userId}&timestamp=${timestamp}`
+          );
+          if (!res.ok) throw new Error('Failed to fetch body');
+
+          const data = await res.json();
+          if (data?.body) {
+            console.log('Fetched body:', data);
+            setBody({
+              json: data.body.json,
+              select: data.body.select,
+              text: data.body.text,
+            });
+            setBodyTable(data.bodyTable || []);
+          }
+        } catch (err: unknown) {
+          console.error('Error fetching body:', err);
+        }
+      };
+
+      fetchBody();
     }
 
     if (Object.keys(search).length > 0) {
@@ -86,9 +109,7 @@ export default function Rest({
       return;
     }
     try {
-      const { response, responseBody, historyItem } = await sendRequest(userId);
-      console.log('Request sent, response:', response, responseBody);
-      console.log('History item saved:', historyItem);
+      await sendRequest(userId);
     } catch (err: unknown) {
       if (err instanceof Error) setError(err.message);
     } finally {

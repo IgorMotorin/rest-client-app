@@ -91,17 +91,13 @@ export const useRestStore = create<UserRequest>((set) => ({
   setBase64: (base64) => set({ base64: base64 }),
   setMethod: (method) => set({ method: method }),
   setUrl: (url) => set({ url: url }),
-  setQuery: (query: tQuery) => {
-    console.log('[STORE] setQuery:', query);
-    console.trace();
-    set({ query });
-  },
+  setQuery: (query: tQuery) => set({ query }),
   setBody: (body: tBody) => set({ body: body }),
-  setBodyTable: (bodyTable: tBodyTable) => set({ bodyTable: bodyTable }),
-  setHeaders: (headers: tQuery) => {
-    console.log('[STORE] setHeaders:', headers);
+  setBodyTable: (bodyTable: tBodyTable) => {
+    console.log('[STORE] setBodyTable:', bodyTable);
     console.trace();
-    set({ headers });
+    set({ bodyTable: bodyTable });
   },
+  setHeaders: (headers: tQuery) => set({ headers }),
   setTabs: (tabs) => set({ tabs: tabs }),
 }));
