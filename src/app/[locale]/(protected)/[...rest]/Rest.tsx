@@ -1,13 +1,11 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import SelectInput from '../../../../components/rest/SelectInput';
-import InputField from '../../../../components/rest/InputField';
+import SelectInput from '@/components/rest/SelectInput';
+import InputField from '@/components/rest/InputField';
 import { methods } from '@/accessory/constants';
-
+import CustomTabs from '@/components/rest/CustomTabs';
 import { Box, Container } from '@mui/system';
 import { Button, Typography } from '@mui/material';
-
-import CustomTabs from '../../../../components/rest/CustomTabs';
 import {
   headersDefault,
   queryDefault,
@@ -18,6 +16,7 @@ import { useTranslations } from 'next-intl';
 import { base64ToText } from '@/accessory/function';
 import { sendRequest } from '@/lib/sendRequest';
 import { useFirebaseAuth } from '@/services/auth/useFirebaseAuth';
+import { getBody } from '@/lib/getBody';
 
 export default function Rest({
   rest = '',
@@ -51,16 +50,9 @@ export default function Rest({
       setUrl(base64ToText(url));
     }
     if (timestamp && userId) {
-      const fetchBody = async () => {
-        try {
-          const res = await fetch(
-            `/api/getBody?userId=${userId}&timestamp=${timestamp}`
-          );
-          if (!res.ok) throw new Error('Failed to fetch body');
-
-          const data = await res.json();
+      getBody(userId, timestamp)
+        .then((data) => {
           if (data?.body) {
-            console.log('Fetched body:', data);
             setBody({
               json: data.body.json,
               select: data.body.select,
@@ -68,12 +60,8 @@ export default function Rest({
             });
             setBodyTable(data.bodyTable || []);
           }
-        } catch (err: unknown) {
-          console.error('Error fetching body:', err);
-        }
-      };
-
-      fetchBody();
+        })
+        .catch(() => {});
     }
 
     if (Object.keys(search).length > 0) {

@@ -94,8 +94,6 @@ export const useRestStore = create<UserRequest>((set) => ({
   setQuery: (query: tQuery) => set({ query }),
   setBody: (body: tBody) => set({ body: body }),
   setBodyTable: (bodyTable: tBodyTable) => {
-    console.log('[STORE] setBodyTable:', bodyTable);
-    console.trace();
     set({ bodyTable: bodyTable });
   },
   setHeaders: (headers: tQuery) => set({ headers }),

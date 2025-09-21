@@ -34,7 +34,9 @@ export default async function History({ userId, locale }: HistoryProps) {
 
   return (
     <Stack spacing={2}>
-      <Typography variant="h5">{t('title')}</Typography>
+      <Typography variant="h5" align="center">
+        {t('title')}
+      </Typography>
       <List>
         {history.map((item, idx) => (
           <ListItem key={idx}>
