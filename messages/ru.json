@@ -1,7 +1,11 @@
 {
   "HomePage": {
-    "sampleTitle": "Финальное задание",
-    "sampleSubtitle": "Проект для курса RS School React 2025"
+    "welcomeTitle": "Добро пожаловать, {userEmail}!"
+  },
+  "Footer": {
+    "allRightsReserved": "Все права защищены",
+    "courseName": "Курс React от RS School",
+    "courseAlt": "Логотип курса"
   },
   "OnboardingPage": {
     "welcome": "Добро пожаловать!",
@@ -48,6 +52,10 @@
       }
     }
   },
+  "SignOut": {
+    "signOut": "Выйти",
+    "signOutError": "Произошла ошибка выхода"
+  },
   "auth": {
     "invalid-email": "Некорректный адрес электронной почты.",
     "missing-email": "Требуется ввести адрес электронной почты.",
@@ -74,5 +82,46 @@
 
     "expired-action-code": "Эта ссылка устарела.",
     "invalid-action-code": "Эта ссылка недействительна."
+  },
+  "HomeNavigation": {
+    "rest": "REST Клиент",
+    "history": "История",
+    "variables": "Переменные"
+  },
+  "HistoryRequests": {
+    "title": "История запросов",
+    "noRequests": "Вы еще не выполняли запросы.",
+    "goToRestClient": "REST Клиент",
+    "status": "Статус: {status}",
+    "latency": "Задержка: {latency} мс",
+    "date": "Дата: {date}"
+  },
+  "Rest": {
+    "select": "Выбрать метод",
+    "url": "Введите или вставьте URL-адрес конечной точки",
+    "send": "Отправить",
+    "sending": "Отправка...",
+    "query": "Параметры запроса",
+    "add": "Добавить",
+    "key": "ключ",
+    "value": "значение",
+    "del": "удалить",
+    "body": "Тело",
+    "headers": "Заголовки",
+    "authorization": "Авторизация",
+    "generated": "Сгенерированный код запроса",
+    "rest": "REST Клиент",
+    "lang": "Язык",
+    "variant": "Вариант",
+    "copy": "Копиравать в буфер"
+  },
+  "VariablesPage": {
+    "add": "Добавить",
+    "variable": "переменная",
+    "value": "значение",
+    "del": "удалить",
+    "turn": "Активно",
+    "variables": "Переменные",
+    "values": "Значения"
   }
 }

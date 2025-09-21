@@ -8,13 +8,14 @@ import {
   Card,
   Field,
   Input,
-  Logo,
   SubmitButton,
 } from '@/components/auth/OnboardingUI';
+import Logo from '@/components/logo/Logo';
 import { useFirebaseAuth } from '@/services/auth/useFirebaseAuth';
 import { FirebaseError } from '@firebase/app';
 import { useTranslations } from 'next-intl';
 import { Link, useRouter } from '@/i18n/navigation';
+import { saveTokenCookie } from '@/lib/saveTokenCookie';
 
 export function SignIn() {
   const { signIn } = useFirebaseAuth();
@@ -51,6 +52,8 @@ export function SignIn() {
   const onSubmit = async (values: SignInValues) => {
     try {
       await signIn(values.email, values.password);
+
+      await saveTokenCookie();
       router.replace('/');
     } catch (e) {
       if (e instanceof FirebaseError) {

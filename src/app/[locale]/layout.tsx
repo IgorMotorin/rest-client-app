@@ -5,7 +5,14 @@ import React from 'react';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { routing } from '@/i18n/routing';
 import { notFound } from 'next/navigation';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { AuthProvider } from '@/services/auth/AuthProvider';
+import Footer from '@/components/footer/Footer';
+import Header from '@/components/header/Header';
 
 export const metadata: Metadata = {
   title: 'Final Task',
@@ -27,7 +34,13 @@ export default async function LocaleLayout({ children, params }: Props) {
     <html lang={locale}>
       <body>
         <NextIntlClientProvider>
-          <AuthProvider>{children}</AuthProvider>
+          <AppRouterCacheProvider>
+            <AuthProvider>
+              <Header />
+              <main>{children}</main>
+              <Footer />
+            </AuthProvider>
+          </AppRouterCacheProvider>
         </NextIntlClientProvider>
       </body>
     </html>

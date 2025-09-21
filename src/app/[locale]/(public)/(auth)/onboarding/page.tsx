@@ -1,11 +1,12 @@
-import { Link } from '@/i18n/navigation';
+import SignUpButton from '@/components/authButtons/SignUpButton';
 import { useTranslations } from 'next-intl';
+import SignInButton from '@/components/authButtons/SignInButton';
 
 export default function OnboardingPage() {
   const t = useTranslations('OnboardingPage');
 
   return (
-    <main className="min-h-screen text-text-color flex items-center justify-center px-4">
+    <main className="py-20 text-text-color flex items-center justify-center px-4">
       <section className="w-full max-w-xl">
         <div className="bg-surface border border-border rounded-2xl shadow-sm p-8 sm:p-10 flex flex-col items-center text-center gap-4">
           <h1 className="text-2xl sm:text-3xl font-semibold">{t('welcome')}</h1>
@@ -14,18 +15,8 @@ export default function OnboardingPage() {
           </p>
 
           <div className="flex items-center justify-center gap-3">
-            <Link
-              href="/sign-in"
-              className="px-4 py-2 rounded-lg border border-border hover:border-primary transition-colors"
-            >
-              {t('signIn')}
-            </Link>
-            <Link
-              href="/sign-up"
-              className="px-4 py-2 rounded-lg bg-primary text-on-primary hover:opacity-90 transition-opacity"
-            >
-              {t('signUp')}
-            </Link>
+            <SignInButton />
+            <SignUpButton />
           </div>
         </div>
       </section>
