@@ -67,7 +67,7 @@ export function SignIn() {
   };
 
   return (
-    <section className="py-20 lg:py-[120px]">
+    <section className="py-20 lg:py-[20px]">
       <div className="container mx-auto px-4">
         <div className="-mx-4 flex flex-wrap">
           <div className="w-full px-4">

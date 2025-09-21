@@ -2,7 +2,7 @@ import React from 'react';
 
 export function Card({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative mx-auto flex max-w-[525px] flex-col items-center gap-4 overflow-hidden rounded-2xl border border-border bg-surface px-8 py-12 text-center shadow-lg md:px-14">
+    <div className="relative mx-auto flex flex-col items-center max-h-[calc(100vh-112px)] overflow-auto w-full max-w-[420px] sm:max-w-[460px] gap-2.5 px-5 py-6 sm:px-8 sm:py-8 rounded-xl border border-border bg-surface text-center shadow-md">
       {children}
     </div>
   );
@@ -18,14 +18,14 @@ export function Field({
   children: React.ReactNode;
 }) {
   return (
-    <label className="flex w-full flex-col gap-2">
+    <label className="flex w-full flex-col gap-1.5">
       {label ? (
-        <span className="text-sm font-medium text-text-color/90">{label}</span>
+        <span className="text-xs font-medium text-text-color/90">{label}</span>
       ) : null}
       {children}
-      <div className="min-h-[1.25rem]">
+      <div className="min-h-[1rem]">
         <p
-          className={error ? 'text-sm text-error' : 'text-sm opacity-0'}
+          className={error ? 'text-xs text-error' : 'text-xs opacity-0'}
           aria-live="polite"
         >
           {error || ''}
@@ -39,9 +39,7 @@ export function Input(props: React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <input
       {...props}
-      className={
-        'w-full rounded-md border border-border bg-background px-5 py-3 text-base text-text-color outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/30'
-      }
+      className="w-full rounded-md border border-border bg-background px-3 py-2 sm:px-4 sm:py-2.5 text-sm text-text-color outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/30"
     />
   );
 }
@@ -57,11 +55,11 @@ export function SubmitButton({
     <button
       type="submit"
       disabled={loading}
-      className="inline-flex w-full items-center justify-center gap-2 rounded-md border border-primary bg-primary px-5 py-3 text-base font-medium text-on-primary transition hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary/40 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
+      className="inline-flex w-full items-center justify-center gap-1.5 rounded-md border border-primary bg-primary px-3 py-2 sm:px-4 sm:py-2.5 text-sm font-medium text-on-primary transition hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary/40 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
     >
       {loading ? (
         <svg
-          className="h-5 w-5 animate-spin"
+          className="h-4 w-4 animate-spin"
           viewBox="0 0 24 24"
           fill="none"
           aria-hidden
@@ -88,8 +86,8 @@ export function SubmitButton({
 
 export function LoadingSpinner() {
   return (
-    <div className="flex justify-center items-center">
-      <div className="h-8 w-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+    <div className="flex items-center justify-center">
+      <div className="h-6 w-6 rounded-full border-2 border-primary border-t-transparent animate-spin"></div>
     </div>
   );
 }
