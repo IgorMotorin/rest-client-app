@@ -113,7 +113,8 @@
     "rest": "REST Client",
     "lang": "Language",
     "variant": "Variant",
-    "copy": "Copy to clipboard"
+    "copy": "Copy to clipboard",
+    "response": "Response"
   },
   "VariablesPage": {
     "add": "add",

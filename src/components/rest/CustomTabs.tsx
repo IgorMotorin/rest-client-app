@@ -13,6 +13,7 @@ import { replaceVariables, Vars } from '@/accessory/function';
 import { useSearchParams } from 'next/navigation';
 import CodeGeneration from '@/components/rest/CodeGeneration';
 import { toast, Toaster } from 'sonner';
+import Response from '@/components/rest/Response';
 
 function TabPanel(props: {
   value: number;
@@ -58,34 +59,6 @@ export default function CustomTabs() {
   const variables = useVariablesStore((state) => state.variables);
 
   const [error, setError] = React.useState('');
-
-  // useEffect(() => {
-  //   const obj: Vars = {};
-  //   headers.forEach((item) => {
-  //     if (!item.select) return;
-  //     obj[item.key] = item.value;
-  //   });
-  //   if (Object.entries(obj).length === 0) {
-  //     const url = '/' + locale + path;
-  //     window.history.replaceState(null, '', `${url}`);
-  //     return;
-  //   }
-
-  //   const textQuery =
-  //     Object.entries(obj).length === 0 ? '{}' : JSON.stringify(obj);
-  //   const [vars, onVars] = replaceVariables(textQuery, variables);
-  //   setError(onVars && textQuery === vars ? 'Variable not found: ' : '');
-  //   const finalHeaders = typeof vars === 'string' ? JSON.parse(vars) : {};
-  //   const params = new URLSearchParams('');
-  //   const keys = Object.keys(finalHeaders);
-  //   keys.forEach((key) => {
-  //     params.set(key, finalHeaders[key]);
-  //   });
-
-  //   const url = '/' + locale + path + '?' + params.toString();
-
-  //   window.history.replaceState(null, '', `${url}`);
-  // }, [locale, path, headers, variables, searchParams]);
 
   useEffect(() => {
     const obj: Vars = {};
@@ -172,6 +145,7 @@ export default function CustomTabs() {
           <Tab label={t('authorization')} value={4} />
           <Tab label="BASE64" value={5} />
           <Tab label={t('generated')} value={6} />
+          <Tab label={t('response')} value={7} />
         </Tabs>
       </Box>
       <TabPanel value={tabs} index={1}>
@@ -205,6 +179,9 @@ export default function CustomTabs() {
       </TabPanel>
       <TabPanel value={tabs} index={6}>
         <CodeGeneration></CodeGeneration>
+      </TabPanel>
+      <TabPanel value={tabs} index={7}>
+        <Response></Response>
       </TabPanel>
       <Toaster></Toaster>
     </>

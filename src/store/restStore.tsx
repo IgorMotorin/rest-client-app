@@ -27,6 +27,7 @@ export interface UserRequest {
   bodyTable: tBodyTable;
   headers: tQuery;
   tabs: number;
+  response: Response | null;
   setBase64: (base64: string) => void;
   setMethod: (method: string) => void;
   setUrl: (url: string) => void;
@@ -35,6 +36,7 @@ export interface UserRequest {
   setBodyTable: (bodyTable: tBodyTable) => void;
   setHeaders: (headers: tQuery) => void;
   setTabs: (tabs: number) => void;
+  setResponse: (response: Response) => void;
 }
 
 const arr = new Array(3);
@@ -88,6 +90,7 @@ export const useRestStore = create<UserRequest>((set) => ({
   bodyTable: bodyTableDefault,
   headers: headersDefault,
   tabs: 1,
+  response: null,
   setBase64: (base64) => set({ base64: base64 }),
   setMethod: (method) => set({ method: method }),
   setUrl: (url) => set({ url: url }),
@@ -98,4 +101,5 @@ export const useRestStore = create<UserRequest>((set) => ({
   },
   setHeaders: (headers: tQuery) => set({ headers }),
   setTabs: (tabs) => set({ tabs: tabs }),
+  setResponse: (response) => set({ response: response }),
 }));
