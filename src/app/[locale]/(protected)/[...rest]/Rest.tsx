@@ -51,11 +51,11 @@ export default function Rest({
     }
     try {
       const { response, responseBody, historyItem } = await sendRequest(userId);
-      // console.log('Request sent, response:', response, responseBody);
+      console.log('Request sent, response:', response, responseBody);
       if (response) {
         setResponse(response);
       }
-      // console.log('History item saved:', historyItem);
+      console.log('History item saved:', historyItem);
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
