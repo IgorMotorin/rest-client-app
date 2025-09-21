@@ -13,6 +13,7 @@ import { useTranslations } from 'next-intl';
 import { base64ToText } from '@/accessory/function';
 import { sendRequest } from '@/lib/sendRequest';
 import { useFirebaseAuth } from '@/services/auth/useFirebaseAuth';
+import { Toaster, toast } from 'sonner';
 
 export default function Rest({
   rest = '',
@@ -32,10 +33,38 @@ export default function Rest({
   const setHeaders = useRestStore((state) => state.setHeaders);
   const setQuery = useRestStore((state) => state.setQuery);
 
+  const setResponse = useRestStore((state) => state.setResponse);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const { user } = useFirebaseAuth();
   const userId = user?.uid;
+
+  const handleSend = async () => {
+    setLoading(true);
+    setError('');
+    if (!userId) {
+      setError('User not logged in');
+      toast.error('User not logged in');
+      setLoading(false);
+      return;
+    }
+    try {
+      const { response, responseBody, historyItem } = await sendRequest(userId);
+      // console.log('Request sent, response:', response, responseBody);
+      if (response) {
+        setResponse(response);
+      }
+      // console.log('History item saved:', historyItem);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+        toast.error(err.message);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     const [method, url, bodyUrl] = rest;
@@ -77,25 +106,6 @@ export default function Rest({
     }
   }, [rest, search]);
 
-  const handleSend = async () => {
-    setLoading(true);
-    setError('');
-    if (!userId) {
-      setError('User not logged in');
-      setLoading(false);
-      return;
-    }
-    try {
-      const { response, responseBody, historyItem } = await sendRequest(userId);
-      console.log('Request sent, response:', response, responseBody);
-      console.log('History item saved:', historyItem);
-    } catch (err: unknown) {
-      if (err instanceof Error) setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <Container maxWidth="xl">
       <Typography
@@ -119,6 +129,7 @@ export default function Rest({
         </Typography>
       )}
       <CustomTabs />
+      <Toaster></Toaster>
     </Container>
   );
 }

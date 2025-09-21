@@ -31,8 +31,10 @@ export default function CodeGeneration() {
     try {
       await navigator.clipboard.writeText(generateCode);
       toast.info('Copied to clipboard!');
-    } catch (err: Error) {
-      toast.error(err.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      }
     }
   };
 
