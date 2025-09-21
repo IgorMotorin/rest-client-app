@@ -104,7 +104,10 @@
     "headers": "Заголовки",
     "authorization": "Авторизация",
     "generated": "Сгенерированный код запроса",
-    "rest": "REST Клиент"
+    "rest": "REST Клиент",
+    "lang": "Язык",
+    "variant": "Вариант",
+    "copy": "Копиравать в буфер"
   },
   "VariablesPage": {
     "add": "Добавить",

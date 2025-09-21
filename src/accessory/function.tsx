@@ -41,6 +41,33 @@ export const textToBase64 = (text: string, path: string, num: number) => {
   return tmp;
 };
 
+function isValidBase64(str: string) {
+  return /^[A-Za-z0-9+/=]+$/.test(str);
+}
+
+function normalizeBase64(str: string) {
+  if (isValidBase64(str)) {
+    return str;
+  }
+  let out = str.replace(/[^A-Za-z0-9+\\/=]/g, '');
+
+  while (out.length % 4 !== 0) {
+    out += '=';
+  }
+  return out;
+}
+
+export const base64ToText = (text: string) => {
+  const decodeUri = decodeURIComponent(text);
+  const inputStr = normalizeBase64(decodeUri);
+  const binary = atob(inputStr);
+  const decoder = new TextDecoder();
+  const bytesArray = Uint8Array.from(
+    binary.split('').map((char) => char.charCodeAt(0))
+  );
+  return decoder.decode(bytesArray);
+};
+
 export const preSelectHeaders = (value: string) => {
   const tmp = {
     id: 0,

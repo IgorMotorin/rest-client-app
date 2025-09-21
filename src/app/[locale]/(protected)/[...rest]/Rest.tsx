@@ -8,18 +8,55 @@ import { Box, Container } from '@mui/system';
 import { Button, Typography } from '@mui/material';
 
 import CustomTabs from '../../../../components/rest/CustomTabs';
-import { useRestStore } from '@/store/restStore';
+import { tQuery, useRestStore } from '@/store/restStore';
 import { useTranslations } from 'next-intl';
+import { base64ToText } from '@/accessory/function';
 
-export default function Rest({ method = '' }: { method: string }) {
+export default function Rest({
+  rest = '',
+  search,
+}: {
+  rest: string;
+  search: { [key: string]: string };
+}) {
   const t = useTranslations('Rest');
+  const setUrl = useRestStore((state) => state.setUrl);
 
   const setMethod = useRestStore((state) => state.setMethod);
+
+  const body = useRestStore((state) => state.body);
+  const setBody = useRestStore((state) => state.setBody);
+
+  const setHeaders = useRestStore((state) => state.setHeaders);
+
   useEffect(() => {
-    if (methods.includes(method.toLowerCase())) {
-      setMethod(method.toLowerCase());
+    const [method, url, bodyUrl] = rest;
+
+    if (method && methods.includes(rest[0].toLowerCase())) {
+      setMethod(rest[0].toLowerCase());
     }
-  }, [method, setMethod]);
+    if (url) {
+      setUrl(base64ToText(url));
+    }
+    if (bodyUrl) {
+      const out = base64ToText(bodyUrl);
+      setBody({ ...body, json: out, select: 'json' });
+    }
+
+    if (Object.keys(search).length > 0) {
+      const params = new URLSearchParams(search);
+      const arr: tQuery = [];
+      params.forEach((value, key) =>
+        arr.push({
+          id: arr.length,
+          key: key,
+          value: value,
+          select: true,
+        })
+      );
+      setHeaders(arr);
+    }
+  }, [rest, search]);
   return (
     <Container maxWidth="xl">
       <Typography
