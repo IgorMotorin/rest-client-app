@@ -6,54 +6,57 @@ import CustomTabs from '../../../../components/rest/CustomTabs';
 import { methods } from '@/accessory/constants';
 import { Box, Container } from '@mui/system';
 import { Button, Typography } from '@mui/material';
-import { useRestStore, bodyTableDefault } from '@/store/restStore';
+
+import CustomTabs from '../../../../components/rest/CustomTabs';
+import { tQuery, useRestStore } from '@/store/restStore';
 import { useTranslations } from 'next-intl';
-import { useFirebaseAuth } from '@/services/auth/useFirebaseAuth';
-import { sendRequest } from '@/lib/sendRequest';
-import { usePathname, useSearchParams } from 'next/navigation';
-import { parseRestUrl } from '@/lib/parseRestUrl';
+import { base64ToText } from '@/accessory/function';
 
-export default function Rest({ method = '' }: { method: string }) {
+export default function Rest({
+  rest = '',
+  search,
+}: {
+  rest: string;
+  search: { [key: string]: string };
+}) {
   const t = useTranslations('Rest');
-  const { user } = useFirebaseAuth();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const setUrl = useRestStore((state) => state.setUrl);
 
-  const setMethod = useRestStore((s) => s.setMethod);
-  const setUrl = useRestStore((s) => s.setUrl);
-  const setHeaders = useRestStore((s) => s.setHeaders);
-  const setQuery = useRestStore((s) => s.setQuery);
-  const setBody = useRestStore((s) => s.setBody);
-  const setBodyTable = useRestStore((s) => s.setBodyTable);
+  const setMethod = useRestStore((state) => state.setMethod);
+
+  const body = useRestStore((state) => state.body);
+  const setBody = useRestStore((state) => state.setBody);
+
+  const setHeaders = useRestStore((state) => state.setHeaders);
 
   useEffect(() => {
-    if (methods.includes(method.toLowerCase())) {
-      setMethod(method.toLowerCase());
+    const [method, url, bodyUrl] = rest;
+
+    if (method && methods.includes(rest[0].toLowerCase())) {
+      setMethod(rest[0].toLowerCase());
     }
-  }, [method, setMethod]);
+    if (url) {
+      setUrl(base64ToText(url));
+    }
+    if (bodyUrl) {
+      const out = base64ToText(bodyUrl);
+      setBody({ ...body, json: out, select: 'json' });
+    }
 
-  useEffect(() => {
-    if (!searchParams || !searchParams.toString()) return;
-    const fullUrl =
-      pathname + (searchParams.toString() ? '?' + searchParams.toString() : '');
-    const item = parseRestUrl(fullUrl);
-    console.log('item from parseRestUrl', item);
-
-    if (!item) return;
-
-    setMethod(item.method);
-    setUrl(item.endpoint);
-    setQuery(item.query);
-    setHeaders(item.headers);
-    setBodyTable(item.bodyTable.length ? item.bodyTable : bodyTableDefault);
-    setBody(item.body || { select: 'none', text: '', json: '{}' });
-  }, [pathname, searchParams]);
-
-  const handleSend = async () => {
-    if (!user) return;
-    await sendRequest(user.uid);
-  };
-
+    if (Object.keys(search).length > 0) {
+      const params = new URLSearchParams(search);
+      const arr: tQuery = [];
+      params.forEach((value, key) =>
+        arr.push({
+          id: arr.length,
+          key: key,
+          value: value,
+          select: true,
+        })
+      );
+      setHeaders(arr);
+    }
+  }, [rest, search]);
   return (
     <Container maxWidth="xl">
       <Typography

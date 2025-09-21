@@ -6,13 +6,16 @@ import Variables from '@/app/[locale]/(protected)/[...rest]/Variables';
 
 export default function CatchAllPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ rest: string }>;
+  searchParams: Promise<{ [key: string]: string }>;
 }) {
   const { rest } = use(params);
+  const search = use(searchParams);
 
-  if (methods.includes(rest[0])) {
-    return <Rest method={rest[0]}></Rest>;
+  if (methods.includes(rest[0].toLowerCase())) {
+    return <Rest rest={rest} search={search}></Rest>;
   }
   if (rest[0] === 'variables') {
     return <Variables />;

@@ -104,7 +104,10 @@
     "headers": "Headers",
     "authorization": "Authorization",
     "generated": "Generated request code",
-    "rest": "REST Client"
+    "rest": "REST Client",
+    "lang": "Language",
+    "variant": "Variant",
+    "copy": "Copy to clipboard"
   },
   "VariablesPage": {
     "add": "add",

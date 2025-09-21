@@ -10,6 +10,9 @@ import * as React from 'react';
 import { usePathname } from '@/i18n/navigation';
 import { useVariablesStore } from '@/store/variablesStore';
 import { replaceVariables, Vars } from '@/accessory/function';
+import { useSearchParams } from 'next/navigation';
+import CodeGeneration from '@/components/rest/CodeGeneration';
+import { toast, Toaster } from 'sonner';
 
 function TabPanel(props: {
   value: number;
@@ -49,6 +52,7 @@ export default function CustomTabs() {
   const bodyTable = useRestStore((state) => state.bodyTable);
 
   const path = usePathname();
+  const searchParams = useSearchParams();
   const locale = useLocale();
 
   const variables = useVariablesStore((state) => state.variables);
@@ -93,6 +97,9 @@ export default function CustomTabs() {
     const textQuery = JSON.stringify(obj);
     const [vars, onVars] = replaceVariables(textQuery, variables);
     setError(onVars && textQuery === vars ? 'Variable not found: ' : '');
+    if (onVars && textQuery === vars) {
+      toast.error('Variable not found');
+    }
 
     const finalHeaders = typeof vars === 'string' ? JSON.parse(vars) : {};
     const params = new URLSearchParams();
@@ -112,8 +119,8 @@ export default function CustomTabs() {
         ? '/' + locale + path
         : '/' + locale + path + '?' + params.toString();
 
-    window.history.replaceState(null, '', url);
-  }, [locale, path, headers, query, variables]);
+    window.history.replaceState(null, '', `${url}`);
+  }, [locale, path, headers, variables]);
 
   return (
     <>
@@ -192,13 +199,14 @@ export default function CustomTabs() {
             multiline
             color={'primary'}
             minRows={4}
-            value={path}
+            value={path + '?' + searchParams.toString()}
           />
         </Box>
       </TabPanel>
       <TabPanel value={tabs} index={6}>
-        <div>Generated request code</div>
+        <CodeGeneration></CodeGeneration>
       </TabPanel>
+      <Toaster></Toaster>
     </>
   );
 }

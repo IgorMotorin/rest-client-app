@@ -77,7 +77,7 @@ export default function MultilineTextFields() {
     const textQuery = selectText(body.select);
     const [vars, onVars] = replaceVariables(textQuery, variables);
 
-    setError(onVars && textQuery === vars ? 'Variable not found: ' : '');
+    setError(onVars && textQuery === vars ? 'Variable not found: ' : err);
 
     const base64Url =
       typeof vars === 'string'
@@ -85,7 +85,16 @@ export default function MultilineTextFields() {
         : '';
 
     window.history.replaceState(null, '', `${base64Url}`);
-  }, [locale, path, bodyTable, variables, body.select, body.text, body.json]);
+  }, [
+    locale,
+    path,
+    bodyTable,
+    variables,
+    body.select,
+    body.text,
+    body.json,
+    err,
+  ]);
 
   useEffect(() => {
     const checkError = () => {
@@ -93,6 +102,7 @@ export default function MultilineTextFields() {
         JSON.parse(body.json);
         setError('');
       } catch (err) {
+        // console.log(err);
         if (typeof err === 'string') {
           setError(err);
         } else if (err instanceof Error) {
