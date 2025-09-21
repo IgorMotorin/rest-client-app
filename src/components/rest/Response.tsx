@@ -1,32 +1,51 @@
 import { Box } from '@mui/system';
 import TextField from '@mui/material/TextField';
 import { Toaster } from 'sonner';
-import React, { cache, JSX, Suspense, use } from 'react';
+import React, { JSX, Suspense, useEffect, useState } from 'react';
 import { useRestStore } from '@/store/restStore';
 import { Typography } from '@mui/material';
 
-const fetchData = cache(async () => {
-  const response = useRestStore((state) => state.response);
-  if (response) return response.clone().text();
-});
-
 function AsyncComponent() {
-  const data = use(fetchData());
+  const response = useRestStore((state) => state.response);
+  const [data, setData] = useState<string>('');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let mounted = true;
+    const fetchData = async () => {
+      if (response) {
+        const text = await response.clone().text();
+        if (mounted) {
+          setData(text);
+          setLoading(false);
+        }
+      } else {
+        setLoading(false);
+      }
+    };
+    fetchData();
+
+    return () => {
+      mounted = false;
+    };
+  }, [response]);
+
+  if (loading) return <div>Loading...</div>;
+
   return (
     <TextField
       id="outlined-multiline-static"
-      label={'Response'}
+      value={data}
       multiline
-      color={'primary'}
-      minRows={4}
-      value={data || ''}
-      disabled={true}
+      rows={4}
+      fullWidth
     />
   );
 }
 
 export default function Response(): JSX.Element {
   const response = useRestStore((state) => state.response);
+
   return (
     <Box
       component="form"
@@ -37,9 +56,8 @@ export default function Response(): JSX.Element {
       <Typography>URL: {response?.url}</Typography>
       <Typography>Status: {response?.status}</Typography>
       <Suspense fallback={<div>Loading...</div>}>
-        <AsyncComponent></AsyncComponent>
+        <AsyncComponent />
       </Suspense>
-
       <Toaster />
     </Box>
   );
