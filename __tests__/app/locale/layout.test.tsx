@@ -10,6 +10,16 @@ jest.mock('@/services/auth/AuthProvider', () => {
   };
 });
 
+jest.mock('@/services/auth/useFirebaseAuth', () => ({
+  __esModule: true,
+  useFirebaseAuth: () => ({
+    user: null,
+    isLoading: false,
+    signIn: jest.fn(),
+    signOut: jest.fn(),
+  }),
+}));
+
 describe('[locale]/layout', () => {
   it('renders html[lang] and wraps children with providers on supported locale', async () => {
     const ui = await LocaleLayout({
