@@ -59,20 +59,42 @@ export default function CustomTabs() {
 
   const [error, setError] = React.useState('');
 
+  // useEffect(() => {
+  //   const obj: Vars = {};
+  //   headers.forEach((item) => {
+  //     if (!item.select) return;
+  //     obj[item.key] = item.value;
+  //   });
+  //   if (Object.entries(obj).length === 0) {
+  //     const url = '/' + locale + path;
+  //     window.history.replaceState(null, '', `${url}`);
+  //     return;
+  //   }
+
+  //   const textQuery =
+  //     Object.entries(obj).length === 0 ? '{}' : JSON.stringify(obj);
+  //   const [vars, onVars] = replaceVariables(textQuery, variables);
+  //   setError(onVars && textQuery === vars ? 'Variable not found: ' : '');
+  //   const finalHeaders = typeof vars === 'string' ? JSON.parse(vars) : {};
+  //   const params = new URLSearchParams('');
+  //   const keys = Object.keys(finalHeaders);
+  //   keys.forEach((key) => {
+  //     params.set(key, finalHeaders[key]);
+  //   });
+
+  //   const url = '/' + locale + path + '?' + params.toString();
+
+  //   window.history.replaceState(null, '', `${url}`);
+  // }, [locale, path, headers, variables, searchParams]);
+
   useEffect(() => {
     const obj: Vars = {};
     headers.forEach((item) => {
-      if (!item.select) return;
+      if (!item.select || !item.key) return;
       obj[item.key] = item.value;
     });
-    if (Object.entries(obj).length === 0) {
-      const url = '/' + locale + path;
-      window.history.replaceState(null, '', `${url}`);
-      return;
-    }
 
-    const textQuery =
-      Object.entries(obj).length === 0 ? '{}' : JSON.stringify(obj);
+    const textQuery = JSON.stringify(obj);
     const [vars, onVars] = replaceVariables(textQuery, variables);
     setError(onVars && textQuery === vars ? 'Variable not found: ' : '');
     if (onVars && textQuery === vars) {
@@ -80,13 +102,22 @@ export default function CustomTabs() {
     }
 
     const finalHeaders = typeof vars === 'string' ? JSON.parse(vars) : {};
-    const params = new URLSearchParams('');
-    const keys = Object.keys(finalHeaders);
-    keys.forEach((key) => {
-      params.set(key, finalHeaders[key]);
+    const params = new URLSearchParams();
+
+    Object.keys(finalHeaders).forEach((key) => {
+      params.set(`h.${key}`, finalHeaders[key]);
     });
 
-    const url = '/' + locale + path + '?' + params.toString();
+    query.forEach((item) => {
+      if (!item.select || !item.key) return;
+      params.set(item.key, item.value);
+    });
+
+    const url =
+      Object.keys(finalHeaders).length === 0 &&
+      query.filter((q) => q.select).length === 0
+        ? '/' + locale + path
+        : '/' + locale + path + '?' + params.toString();
 
     window.history.replaceState(null, '', `${url}`);
   }, [locale, path, headers, variables]);

@@ -38,27 +38,27 @@ export interface UserRequest {
 }
 
 const arr = new Array(3);
-const queryDefault = arr.fill(1).map((item, index) => ({
+export const queryDefault = arr.fill(1).map((item, index) => ({
   id: index,
   key: '',
   value: '',
   select: false,
 }));
 
-const headersDefault = arr.fill(1).map((item, index) => ({
+export const headersDefault = arr.fill(1).map((item, index) => ({
   id: index,
   key: '',
   value: '',
   select: false,
 }));
 
-const bodyDefault = {
+export const bodyDefault = {
   select: 'none',
   text: '',
   json: '{}',
 };
 
-const bodyTableDefault = [
+export const bodyTableDefault = [
   {
     id: 0,
     key: '',
@@ -91,9 +91,17 @@ export const useRestStore = create<UserRequest>((set) => ({
   setBase64: (base64) => set({ base64: base64 }),
   setMethod: (method) => set({ method: method }),
   setUrl: (url) => set({ url: url }),
-  setQuery: (query: tQuery) => set({ query: query }),
+  setQuery: (query: tQuery) => {
+    console.log('[STORE] setQuery:', query);
+    console.trace();
+    set({ query });
+  },
   setBody: (body: tBody) => set({ body: body }),
   setBodyTable: (bodyTable: tBodyTable) => set({ bodyTable: bodyTable }),
-  setHeaders: (headers: tQuery) => set({ headers: headers }),
+  setHeaders: (headers: tQuery) => {
+    console.log('[STORE] setHeaders:', headers);
+    console.trace();
+    set({ headers });
+  },
   setTabs: (tabs) => set({ tabs: tabs }),
 }));

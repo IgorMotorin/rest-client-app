@@ -15,6 +15,7 @@ import { useTranslations } from 'next-intl';
 import { useFirebaseAuth } from '@/services/auth/useFirebaseAuth';
 import { FirebaseError } from '@firebase/app';
 import { Link, useRouter } from '@/i18n/navigation';
+import { saveTokenCookie } from '@/lib/saveTokenCookie';
 
 export function SignUp() {
   const { signUp } = useFirebaseAuth();
@@ -73,6 +74,7 @@ export function SignUp() {
   const onSubmit = async (values: SignUpValues) => {
     try {
       await signUp(values.email, values.password);
+      await saveTokenCookie();
       router.replace('/');
     } catch (e) {
       if (e instanceof FirebaseError) {
