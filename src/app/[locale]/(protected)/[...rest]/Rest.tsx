@@ -2,8 +2,8 @@
 import React, { useEffect } from 'react';
 import SelectInput from '../../../../components/rest/SelectInput';
 import InputField from '../../../../components/rest/InputField';
-import CustomTabs from '../../../../components/rest/CustomTabs';
 import { methods } from '@/accessory/constants';
+
 import { Box, Container } from '@mui/system';
 import { Button, Typography } from '@mui/material';
 
@@ -67,14 +67,12 @@ export default function Rest({
       >
         {t('rest')}
       </Typography>
-      <Box className="flex m-2">
-        <SelectInput />
-        <InputField />
-        <Button variant="contained" onClick={handleSend}>
-          {t('send')}
-        </Button>
+      <Box className={'flex m-2'}>
+        <SelectInput></SelectInput>
+        <InputField></InputField>
+        <Button variant="contained">{t('send')}</Button>
       </Box>
-      <CustomTabs />
+      <CustomTabs></CustomTabs>
     </Container>
   );
 }
