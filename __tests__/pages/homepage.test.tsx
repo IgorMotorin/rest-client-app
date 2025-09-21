@@ -11,7 +11,7 @@ jest.mock('@/services/auth/useFirebaseAuth', () => ({
   }),
 }));
 
-jest.mock('@/app/[locale]/(protected)/HomeNavigation', () => ({
+jest.mock('@/components/home/HomeNavigation', () => ({
   __esModule: true,
   default: () => <div data-testid="home-nav" />,
 }));

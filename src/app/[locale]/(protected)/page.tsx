@@ -1,5 +1,5 @@
 'use client';
-import HomeNavigation from '@/app/[locale]/(protected)/HomeNavigation';
+import HomeNavigation from '@/components/home/HomeNavigation';
 import { useFirebaseAuth } from '@/services/auth/useFirebaseAuth';
 import { useTranslations } from 'next-intl';
 import { Box, Typography, Stack, Container } from '@mui/material';
