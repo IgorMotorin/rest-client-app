@@ -2,12 +2,12 @@ import { cookies } from 'next/headers';
 import { verifyIdToken } from '@/lib/firebaseAdmin';
 import History from '@/components/history/History';
 
-type HistoryPageProps = {
-  params: { locale: string };
-};
-
-export default async function HistoryPage(props: HistoryPageProps) {
-  const { locale } = await props.params;
+export default async function HistoryPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
   const cookieStore = await cookies();
   const token = cookieStore.get('token')?.value;
 
