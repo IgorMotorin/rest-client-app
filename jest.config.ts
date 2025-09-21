@@ -39,7 +39,12 @@ const config: Config = {
   coverageDirectory: 'coverage',
 
   // An array of regexp pattern strings used to skip coverage collection
-  coveragePathIgnorePatterns: ['<rootDir>/src/.*(types|constants|index)\\.ts$'],
+  coveragePathIgnorePatterns: [
+    '<rootDir>/src/.*(types|constants|index)\\.ts$',
+    '<rootDir>/src/lib/firebase-server.ts',
+    '<rootDir>/src/lib/firebase.ts',
+    '<rootDir>/src/lib/firebaseAdmin.ts',
+  ],
 
   // Indicates which provider should be used to instrument code for coverage
   coverageProvider: 'v8',
