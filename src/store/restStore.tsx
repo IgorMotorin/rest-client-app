@@ -1,17 +1,17 @@
 import { create } from 'zustand';
 
-type tQuery = {
+export type tQuery = {
   id: number;
   key: string;
   value: string;
   select: boolean;
 }[];
-type tBody = {
+export type tBody = {
   select: string;
   text: string;
   json: string;
 };
-type tBodyTable = {
+export type tBodyTable = {
   id: number;
   key: string;
   value: string;

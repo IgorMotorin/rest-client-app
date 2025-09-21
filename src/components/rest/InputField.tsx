@@ -6,6 +6,7 @@ import { usePathname, useRouter } from '@/i18n/navigation';
 import { useVariablesStore } from '@/store/variablesStore';
 import { useFirebaseAuth } from '@/services/auth/useFirebaseAuth';
 import { replaceVariables, textToBase64 } from '@/accessory/function';
+import { toast, Toaster } from 'sonner';
 
 const InputField = () => {
   const t = useTranslations('Rest');
@@ -31,7 +32,10 @@ const InputField = () => {
     const [vars, onVars] = replaceVariables(url, variables);
     if (typeof vars === 'string') setUrlAfterVariables(vars);
     if (typeof onVars === 'boolean') setOnVariables(onVars);
-    setError(onVars && url === vars ? 'Variable not found: ' : '');
+    setError(onVars && url === vars ? 'URL: ' : '');
+    if (onVars && url === vars) {
+      toast.error('Variable not found');
+    }
 
     const base64Url =
       typeof vars === 'string'
@@ -61,6 +65,7 @@ const InputField = () => {
         onChange={handleVariable}
         color={error ? 'error' : 'primary'}
       />
+      <Toaster></Toaster>
     </FormControl>
   );
 };
