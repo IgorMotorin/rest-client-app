@@ -8,7 +8,12 @@ import { Box, Container } from '@mui/system';
 import { Button, Typography } from '@mui/material';
 
 import CustomTabs from '../../../../components/rest/CustomTabs';
-import { tQuery, useRestStore } from '@/store/restStore';
+import {
+  headersDefault,
+  queryDefault,
+  tQuery,
+  useRestStore,
+} from '@/store/restStore';
 import { useTranslations } from 'next-intl';
 import { base64ToText } from '@/accessory/function';
 import { sendRequest } from '@/lib/sendRequest';
@@ -37,10 +42,7 @@ export default function Rest({
 
   useEffect(() => {
     const [method, url, tsEncoded] = rest;
-    console.log(tsEncoded);
-    const timestamp = tsEncoded ? String(atob(tsEncoded)) : '';
-
-    console.log(timestamp);
+    const timestamp = url && tsEncoded ? atob(tsEncoded) : '';
 
     if (method && methods.includes(rest[0].toLowerCase())) {
       setMethod(rest[0].toLowerCase());
@@ -76,23 +78,43 @@ export default function Rest({
 
     if (Object.keys(search).length > 0) {
       const params = new URLSearchParams(search);
-      const headersArr: tQuery = [];
-      const queryArr: tQuery = [];
+      const headersArr: tQuery = [...headersDefault];
+      const queryArr: tQuery = [...queryDefault];
       params.forEach((value, key) => {
         if (key.startsWith('h.')) {
-          headersArr.push({
-            id: headersArr.length,
-            key: key.replace('h.', ''),
-            value,
-            select: true,
-          });
+          const emptyIndex = headersArr.findIndex((h) => !h.select && !h.key);
+          if (emptyIndex >= 0) {
+            headersArr[emptyIndex] = {
+              id: headersArr[emptyIndex].id,
+              key: key.replace('h.', ''),
+              value,
+              select: true,
+            };
+          } else {
+            headersArr.push({
+              id: headersArr.length,
+              key: key.replace('h.', ''),
+              value,
+              select: true,
+            });
+          }
         } else {
-          queryArr.push({
-            id: queryArr.length,
-            key,
-            value,
-            select: true,
-          });
+          const emptyIndex = queryArr.findIndex((q) => !q.select && !q.key);
+          if (emptyIndex >= 0) {
+            queryArr[emptyIndex] = {
+              id: queryArr[emptyIndex].id,
+              key,
+              value,
+              select: true,
+            };
+          } else {
+            queryArr.push({
+              id: queryArr.length,
+              key,
+              value,
+              select: true,
+            });
+          }
         }
       });
       setHeaders(headersArr);

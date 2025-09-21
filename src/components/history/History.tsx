@@ -10,6 +10,7 @@ import { HistoryItem } from '@/lib/sendHistory';
 import { getFirestore } from 'firebase-admin/firestore';
 import NextLink from 'next/link';
 import { buildRestUrl } from '@/lib/urlBuilder';
+import HistoryLink from './HistoryLink';
 
 type HistoryProps = {
   userId: string;
@@ -47,14 +48,10 @@ export default async function History({ userId, locale }: HistoryProps) {
         {history.map((item, idx) => (
           <ListItem key={idx}>
             <Paper sx={{ p: 2, width: '100%' }}>
-              <MuiLink
-                component={NextLink}
-                href={buildRestUrl(locale, item)}
-                underline="hover"
-                sx={{ fontWeight: 'bold' }}
-              >
+              <HistoryLink href={buildRestUrl(locale, item)}>
                 [{item.method.toUpperCase()}] {item.endpoint}
-              </MuiLink>
+              </HistoryLink>
+
               <Typography variant="body2" color="text.secondary">
                 Status: {item.statusCode} | Latency: {item.latency?.toFixed(1)}
                 ms | Date: {new Date(item.timestamp).toLocaleString()}
