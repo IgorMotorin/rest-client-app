@@ -89,7 +89,12 @@
     "variables": "Переменные"
   },
   "HistoryRequests": {
-    "title": "История запросов"
+    "title": "История запросов",
+    "noRequests": "Вы еще не выполняли запросы.",
+    "goToRestClient": "REST Клиент",
+    "status": "Статус: {status}",
+    "latency": "Задержка: {latency} мс",
+    "date": "Дата: {date}"
   },
   "Rest": {
     "select": "Выбрать метод",

@@ -1,19 +1,23 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import SelectInput from '../../../../components/rest/SelectInput';
-import InputField from '../../../../components/rest/InputField';
+import SelectInput from '@/components/rest/SelectInput';
+import InputField from '@/components/rest/InputField';
 import { methods } from '@/accessory/constants';
-
+import CustomTabs from '@/components/rest/CustomTabs';
 import { Box, Container } from '@mui/system';
 import { Button, Typography } from '@mui/material';
-
-import CustomTabs from '../../../../components/rest/CustomTabs';
-import { tQuery, useRestStore } from '@/store/restStore';
+import {
+  headersDefault,
+  queryDefault,
+  tQuery,
+  useRestStore,
+} from '@/store/restStore';
 import { useTranslations } from 'next-intl';
 import { base64ToText } from '@/accessory/function';
 import { sendRequest } from '@/lib/sendRequest';
 import { useFirebaseAuth } from '@/services/auth/useFirebaseAuth';
 import { Toaster, toast } from 'sonner';
+import { getBody } from '@/lib/getBody';
 
 export default function Rest({
   rest = '',
@@ -26,10 +30,8 @@ export default function Rest({
   const setUrl = useRestStore((state) => state.setUrl);
 
   const setMethod = useRestStore((state) => state.setMethod);
-
-  const body = useRestStore((state) => state.body);
   const setBody = useRestStore((state) => state.setBody);
-
+  const setBodyTable = useRestStore((state) => state.setBodyTable);
   const setHeaders = useRestStore((state) => state.setHeaders);
   const setQuery = useRestStore((state) => state.setQuery);
 
@@ -50,12 +52,10 @@ export default function Rest({
       return;
     }
     try {
-      const { response, responseBody, historyItem } = await sendRequest(userId);
-      console.log('Request sent, response:', response, responseBody);
+      const { response } = await sendRequest(userId);
       if (response) {
         setResponse(response);
       }
-      console.log('History item saved:', historyItem);
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
@@ -67,7 +67,8 @@ export default function Rest({
   };
 
   useEffect(() => {
-    const [method, url, bodyUrl] = rest;
+    const [method, url, tsEncoded] = rest;
+    const timestamp = url && tsEncoded ? atob(tsEncoded) : '';
 
     if (method && methods.includes(rest[0].toLowerCase())) {
       setMethod(rest[0].toLowerCase());
@@ -75,30 +76,60 @@ export default function Rest({
     if (url) {
       setUrl(base64ToText(url));
     }
-    if (bodyUrl) {
-      const out = base64ToText(bodyUrl);
-      setBody({ ...body, json: out, select: 'json' });
+    if (timestamp && userId) {
+      getBody(userId, timestamp)
+        .then((data) => {
+          if (data?.body) {
+            setBody({
+              json: data.body.json,
+              select: data.body.select,
+              text: data.body.text,
+            });
+            setBodyTable(data.bodyTable || []);
+          }
+        })
+        .catch(() => {});
     }
 
     if (Object.keys(search).length > 0) {
       const params = new URLSearchParams(search);
-      const headersArr: tQuery = [];
-      const queryArr: tQuery = [];
+      const headersArr: tQuery = [...headersDefault];
+      const queryArr: tQuery = [...queryDefault];
       params.forEach((value, key) => {
         if (key.startsWith('h.')) {
-          headersArr.push({
-            id: headersArr.length,
-            key: key.replace('h.', ''),
-            value,
-            select: true,
-          });
+          const emptyIndex = headersArr.findIndex((h) => !h.select && !h.key);
+          if (emptyIndex >= 0) {
+            headersArr[emptyIndex] = {
+              id: headersArr[emptyIndex].id,
+              key: key.replace('h.', ''),
+              value,
+              select: true,
+            };
+          } else {
+            headersArr.push({
+              id: headersArr.length,
+              key: key.replace('h.', ''),
+              value,
+              select: true,
+            });
+          }
         } else {
-          queryArr.push({
-            id: queryArr.length,
-            key,
-            value,
-            select: true,
-          });
+          const emptyIndex = queryArr.findIndex((q) => !q.select && !q.key);
+          if (emptyIndex >= 0) {
+            queryArr[emptyIndex] = {
+              id: queryArr[emptyIndex].id,
+              key,
+              value,
+              select: true,
+            };
+          } else {
+            queryArr.push({
+              id: queryArr.length,
+              key,
+              value,
+              select: true,
+            });
+          }
         }
       });
       setHeaders(headersArr);

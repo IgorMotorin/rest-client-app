@@ -17,7 +17,6 @@ export default function Home() {
         alignItems: 'center',
         py: { xs: 6, sm: 8, md: 12 },
         px: { xs: 2, sm: 4, md: 6 },
-        minHeight: '100vh',
       }}
     >
       <Container maxWidth="md">

@@ -6,7 +6,8 @@ type HistoryPageProps = {
   params: { locale: string };
 };
 
-export default async function HistoryPage({ params }: HistoryPageProps) {
+export default async function HistoryPage(props: HistoryPageProps) {
+  const { locale } = await props.params;
   const cookieStore = await cookies();
   const token = cookieStore.get('token')?.value;
 
@@ -18,7 +19,7 @@ export default async function HistoryPage({ params }: HistoryPageProps) {
     const decoded = await verifyIdToken(token);
     const userId = decoded.uid;
 
-    return <History userId={userId} locale={params.locale} />;
+    return <History userId={userId} locale={locale} />;
   } catch (err) {
     console.error(err);
     return <div>Unauthorized</div>;

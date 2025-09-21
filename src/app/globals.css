@@ -54,5 +54,6 @@ body {
 }
 
 main {
-  flex-grow: 1;
+  flex: 1;
+  padding-top: 2rem;
 }

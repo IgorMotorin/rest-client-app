@@ -44,7 +44,7 @@ export async function sendRequest(userId: string) {
   });
 
   const endTime = performance.now();
-  const latency = endTime - startTime;
+  const latency = Number((endTime - startTime).toFixed(3));
   const requestSize = body ? new TextEncoder().encode(body).length : 0;
   const responseSize = responseBody
     ? new TextEncoder().encode(responseBody).length

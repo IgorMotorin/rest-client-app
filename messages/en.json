@@ -89,7 +89,12 @@
     "variables": "Variables"
   },
   "HistoryRequests": {
-    "title": "History Requests"
+    "title": "History Requests",
+    "noRequests": "You haven’t executed any requests yet.",
+    "goToRestClient": "REST Client",
+    "status": "Status: {status}",
+    "latency": "Latency: {latency} ms",
+    "date": "Date: {date}"
   },
   "Rest": {
     "select": "Select method",

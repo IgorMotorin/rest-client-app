@@ -102,7 +102,6 @@ export default function MultilineTextFields() {
         JSON.parse(body.json);
         setError('');
       } catch (err) {
-        // console.log(err);
         if (typeof err === 'string') {
           setError(err);
         } else if (err instanceof Error) {
