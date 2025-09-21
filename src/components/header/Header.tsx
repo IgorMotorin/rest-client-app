@@ -6,20 +6,36 @@ import SignOut from '@/components/authButtons/SignOutButton';
 import { useFirebaseAuth } from '@/services/auth/useFirebaseAuth';
 import SignUpButton from '@/components/authButtons/SignUpButton';
 import SignInButton from '@/components/authButtons/SignInButton';
+import { useEffect, useState } from 'react';
 
 export default function Header() {
   const { user } = useFirebaseAuth();
+  const [scroll, setScroll] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScroll(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
     <Box
       component="header"
       px={2}
-      py={2}
+      py={scroll ? 1 : 2}
       position="sticky"
       top={0}
       zIndex={10}
-      boxShadow={1}
-      bgcolor="background.paper"
+      boxShadow={scroll ? 4 : 1}
+      bgcolor={scroll ? 'lightblue' : 'background.paper'}
+      sx={{
+        transition: 'all 0.3s ease',
+      }}
     >
       <Container
         maxWidth="lg"
