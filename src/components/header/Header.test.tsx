@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import Header from '@/components/header/Header';
 import { User } from 'firebase/auth';
 import { AuthContextValue } from '@/services/auth/auth.types';
@@ -97,7 +97,9 @@ describe('Header', () => {
       value: 100,
       configurable: true,
     });
-    window.dispatchEvent(new Event('scroll'));
+    act(() => {
+      window.dispatchEvent(new Event('scroll'));
+    });
 
     addSpy.mockClear();
     removeSpy.mockClear();
@@ -106,7 +108,9 @@ describe('Header', () => {
       status: 'unauthenticated',
       user: null,
     });
-    unmount();
+    act(() => {
+      unmount();
+    });
 
     expect(removeSpy).toHaveBeenCalledWith('scroll', expect.any(Function));
 
