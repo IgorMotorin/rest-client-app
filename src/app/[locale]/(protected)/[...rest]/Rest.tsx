@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import SelectInput from '../../../../components/rest/SelectInput';
 import InputField from '../../../../components/rest/InputField';
 import { methods } from '@/accessory/constants';
@@ -11,6 +11,8 @@ import CustomTabs from '../../../../components/rest/CustomTabs';
 import { tQuery, useRestStore } from '@/store/restStore';
 import { useTranslations } from 'next-intl';
 import { base64ToText } from '@/accessory/function';
+import { sendRequest } from '@/lib/sendRequest';
+import { useFirebaseAuth } from '@/services/auth/useFirebaseAuth';
 
 export default function Rest({
   rest = '',
@@ -28,6 +30,10 @@ export default function Rest({
   const setBody = useRestStore((state) => state.setBody);
 
   const setHeaders = useRestStore((state) => state.setHeaders);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const { user } = useFirebaseAuth();
+  const userId = user?.uid;
 
   useEffect(() => {
     const [method, url, bodyUrl] = rest;
@@ -57,6 +63,26 @@ export default function Rest({
       setHeaders(arr);
     }
   }, [rest, search]);
+
+  const handleSend = async () => {
+    setLoading(true);
+    setError('');
+    if (!userId) {
+      setError('User not logged in');
+      setLoading(false);
+      return;
+    }
+    try {
+      const { response, responseBody, historyItem } = await sendRequest(userId);
+      console.log('Request sent, response:', response, responseBody);
+      console.log('History item saved:', historyItem);
+    } catch (err: unknown) {
+      if (err instanceof Error) setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Container maxWidth="xl">
       <Typography
@@ -70,9 +96,16 @@ export default function Rest({
       <Box className={'flex m-2'}>
         <SelectInput></SelectInput>
         <InputField></InputField>
-        <Button variant="contained">{t('send')}</Button>
+        <Button variant="contained" onClick={handleSend} disabled={loading}>
+          {loading ? t('sending') : t('send')}
+        </Button>
       </Box>
-      <CustomTabs></CustomTabs>
+      {error && (
+        <Typography color="error" sx={{ m: 1 }}>
+          {error}
+        </Typography>
+      )}
+      <CustomTabs />
     </Container>
   );
 }

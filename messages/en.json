@@ -95,6 +95,7 @@
     "select": "Select method",
     "url": "Enter or paste endpoint URL",
     "send": "Send",
+    "sending": "Sending...",
     "query": "Query params",
     "add": "add a row",
     "key": "key",
