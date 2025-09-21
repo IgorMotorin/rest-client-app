@@ -4,11 +4,26 @@
 // import { AuthContext } from '@/services/auth/AuthContext';
 // import SelectInput from '@/components/rest/SelectInput';
 // import { useRestStore } from '@/store/restStore';
+// import { AuthContextValue } from '@/services/auth/auth.types';
 
 describe('SelectInput', () => {
   // test('renders select dropdown with available methods', () => {
+  //   const defaultValue: AuthContextValue = {
+  //     status: 'loading',
+  //     user: null,
+  //     signIn: async () => {
+  //       throw new Error('not implemented');
+  //     },
+  //     signUp: async () => {
+  //       throw new Error('not implemented');
+  //     },
+  //     signOut: async () => {
+  //       throw new Error('not implemented');
+  //     },
+  //   };
+  //
   //   render(
-  //     <AuthContext.Provider value={useRestStore}>
+  //     <AuthContext.Provider value={{ ...defaultValue }}>
   //       <SelectInput />
   //     </AuthContext.Provider>
   //   );
@@ -17,8 +32,8 @@ describe('SelectInput', () => {
   //   expect(selectDropdown).toBeInTheDocument();
   //
   //   // Проверяем доступные опции
-  //   const menuItems = screen.getAllByRole('option');
-  //   expect(menuItems.length).toEqual(methods.length);
+  //   // const menuItems = screen.getAllByRole('option');
+  //   // expect(menuItems.length).toEqual(methods.length);
   // });
   //
   // test('changes method and updates route', async () => {
