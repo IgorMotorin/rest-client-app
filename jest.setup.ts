@@ -76,6 +76,7 @@ class NextRedirectError extends Error {
 jest.mock('next-intl', () => ({
   __esModule: true,
   useTranslations: () => (key: string) => key,
+  useLocale: () => 'en',
   hasLocale: (locales: readonly string[], value: string) =>
     locales.includes(value),
   NextIntlClientProvider: ({ children }: { children?: React.ReactNode }) =>
@@ -123,12 +124,21 @@ jest.mock('next/headers', () => ({
   headers: () => new Map([['accept-language', 'en-US,en;q=0.9']]),
 }));
 
-jest.mock('next/navigation', () => ({
-  __esModule: true,
-  notFound: () => {
-    throw new Error('NEXT_NOT_FOUND');
-  },
-}));
+jest.mock('next/navigation', () => {
+  const actual = jest.requireActual('next/navigation');
+  return {
+    __esModule: true,
+    ...actual,
+    notFound: () => {
+      throw new Error('NEXT_NOT_FOUND');
+    },
+    useServerInsertedHTML: (cb: () => React.ReactNode) => {
+      if (typeof cb === 'function') {
+        cb();
+      }
+    },
+  };
+});
 
 afterEach(() => {
   jest.clearAllMocks();
