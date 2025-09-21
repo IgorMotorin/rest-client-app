@@ -124,21 +124,23 @@ jest.mock('next/headers', () => ({
   headers: () => new Map([['accept-language', 'en-US,en;q=0.9']]),
 }));
 
-jest.mock('next/navigation', () => {
-  const actual = jest.requireActual('next/navigation');
-  return {
-    __esModule: true,
-    ...actual,
-    notFound: () => {
-      throw new Error('NEXT_NOT_FOUND');
-    },
-    useServerInsertedHTML: (cb: () => React.ReactNode) => {
-      if (typeof cb === 'function') {
-        cb();
-      }
-    },
-  };
-});
+jest.mock('next/navigation', () => ({
+  __esModule: true,
+  notFound: () => {
+    throw new Error('NEXT_NOT_FOUND');
+  },
+  useServerInsertedHTML: (cb: () => React.ReactNode) => {
+    if (typeof cb === 'function') cb();
+  },
+  usePathname: () => '/',
+  useSearchParams: () => new URLSearchParams(),
+  useParams: () => ({}) as Record<string, string>,
+  useRouter: () => ({
+    push: jest.fn(),
+    replace: jest.fn(),
+    prefetch: jest.fn(),
+  }),
+}));
 
 afterEach(() => {
   jest.clearAllMocks();

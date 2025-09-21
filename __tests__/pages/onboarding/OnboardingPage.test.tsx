@@ -1,8 +1,14 @@
 import OnboardingPage from '@/app/[locale]/(public)/(auth)/onboarding/page';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { createNavigation } from 'next-intl/navigation';
+
+const router = createNavigation().useRouter() as unknown as {
+  push: jest.Mock;
+  replace: jest.Mock;
+};
 
 describe('OnboardingPage', () => {
-  it('renders headings and sign-in / sign-up links', () => {
+  it('renders headings and sign-in / sign-up links', async () => {
     render(<OnboardingPage />);
 
     expect(
@@ -10,14 +16,13 @@ describe('OnboardingPage', () => {
     ).toBeInTheDocument();
     expect(screen.getByText('welcomeSubtitle')).toBeInTheDocument();
 
-    const signInLink = screen.getByRole('link', {
-      name: 'signIn',
-    });
-    const signUpLink = screen.getByRole('link', {
-      name: 'signUp',
-    });
+    const signInBtn = screen.getByRole('button', { name: 'signIn' });
+    const signUpBtn = screen.getByRole('button', { name: 'signUp' });
 
-    expect(signInLink).toHaveAttribute('href', '/sign-in');
-    expect(signUpLink).toHaveAttribute('href', '/sign-up');
+    fireEvent.click(signInBtn);
+    expect(router.push).toHaveBeenCalledWith('/sign-in');
+
+    fireEvent.click(signUpBtn);
+    expect(router.push).toHaveBeenCalledWith('/sign-up');
   });
 });
