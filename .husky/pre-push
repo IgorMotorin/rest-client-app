@@ -1,1 +1,1 @@
-# TODO: Add test command once framework is chosen
+npm run test:coverage
