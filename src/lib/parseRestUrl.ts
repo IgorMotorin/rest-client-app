@@ -28,25 +28,50 @@ export function parseRestUrl(url: string): HistoryItem | null {
         body = { select: 'text', text: raw, json: '{}' };
       }
     }
+
+    // const currentHeaders = useRestStore.getState().headers;
+    // const currentQuery = useRestStore.getState().query;
+
+    // console.log('parseHeaders:' + currentHeaders);
+    // console.log('parseHeaders:' + currentQuery);
+
     const headers: tQuery = [];
     const query: tQuery = [];
+
     if (queryString?.length) {
       const params = new URLSearchParams(queryString);
 
       params.forEach((value, key) => {
+        console.log('parseRestUrl param:', { key, value });
         if (key.startsWith('h.')) {
           const name = key.slice(2);
-          headers.push({
-            id: headers.length + 1,
-            key: name,
-            value,
-            select: true,
-          });
+          const existingHeader = headers.find((h) => h.key === name);
+          const header = existingHeader
+            ? { ...existingHeader, value }
+            : { id: headers.length, key: name, value, select: true };
+          const index = headers.findIndex((h) => h.key === name);
+          if (index >= 0) {
+            headers[index] = header;
+          } else {
+            headers.push(header);
+          }
         } else {
-          query.push({ id: query.length + 2, key, value, select: true });
+          const existingQuery = query.find((q) => q.key === key);
+          const queryItem = existingQuery
+            ? { ...existingQuery, value }
+            : { id: query.length, key, value, select: true };
+          const index = query.findIndex((q) => q.key === key);
+          if (index >= 0) {
+            query[index] = queryItem;
+          } else {
+            query.push(queryItem);
+          }
         }
       });
     }
+
+    console.log('parsed headers:', headers);
+    console.log('parsed query:', query);
 
     let bodyTable = bodyTableDefault;
     if (body.select === 'json' && body.json) {

@@ -35,7 +35,6 @@ export interface UserRequest {
   setBodyTable: (bodyTable: tBodyTable) => void;
   setHeaders: (headers: tQuery) => void;
   setTabs: (tabs: number) => void;
-  setStore: (state: Partial<UserRequest>) => void;
 }
 
 const arr = new Array(3);
@@ -92,10 +91,17 @@ export const useRestStore = create<UserRequest>((set) => ({
   setBase64: (base64) => set({ base64: base64 }),
   setMethod: (method) => set({ method: method }),
   setUrl: (url) => set({ url: url }),
-  setQuery: (query: tQuery) => set({ query: query }),
+  setQuery: (query: tQuery) => {
+    console.log('[STORE] setQuery:', query);
+    console.trace();
+    set({ query });
+  },
   setBody: (body: tBody) => set({ body: body }),
   setBodyTable: (bodyTable: tBodyTable) => set({ bodyTable: bodyTable }),
-  setHeaders: (headers: tQuery) => set({ headers: headers }),
+  setHeaders: (headers: tQuery) => {
+    console.log('[STORE] setHeaders:', headers);
+    console.trace();
+    set({ headers });
+  },
   setTabs: (tabs) => set({ tabs: tabs }),
-  setStore: (state) => set(state),
 }));

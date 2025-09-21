@@ -37,6 +37,8 @@ export default function Rest({ method = '' }: { method: string }) {
     const fullUrl =
       pathname + (searchParams.toString() ? '?' + searchParams.toString() : '');
     const item = parseRestUrl(fullUrl);
+    console.log('item from parseRestUrl', item);
+
     if (!item) return;
 
     setMethod(item.method);
